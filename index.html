@@ -1,0 +1,13 @@
+<select id=rom>
+  <option value="ROM/TEST/C8PIC.ch8">TEST/C8PIC</option>
+  <option value="ROM/TEST/IBM.ch8">TEST/IBM</option>
+  <option value="ROM/TEST/Rocket2.ch8">TEST/Rocket2 (press Y to launch)</option>
+  <option value="ROM/TEST/X-MIRROR.ch8">TEST/X-MIRROR (press 2,4,6,8 to draw)</option>
+  <option value="ROM/TEST/TAPEWORM.ch8">TEST/TAPEWORM (Y to start, 2,4,6,8 to move)</option>
+</select>
+<button onclick=c8(rom.value)>Play</button>
+<button onclick=location=location>Reset</button>
+<br>
+<canvas id=C width=64 height=32 style="background:#000;border:1px solid;-webkit-transform:scale(5);transform:scale(5);-webkit-transform-origin:0 0;transform-origin:0 0">
+<audio id=a>
+<script src=c8.js></script>
