@@ -1,9 +1,11 @@
+<!doctype html>
 <meta charset=utf-8>
 <style>
   body { text-align: center; font-family: arial; }
   h1, h2 { margin: 0; }
   canvas { background: #000; border: 1px solid; -webkit-transform: scale(9); transform: scale(9); -webkit-transform-origin: 50% 0; transform-origin: 50% 0; }
 </style>
+<body onload=rom.disabled="">
 <br>
 <h1>1kb Chip8 emulator</h1>
 <b>in HTML5 & JavaScript</b>
@@ -19,8 +21,46 @@ Choose a ROM:
   <option value="ROM/TEST/Rocket2.ch8">TEST/Rocket2 (press Y to launch)</option>
   <option value="ROM/TEST/X-MIRROR.ch8">TEST/X-MIRROR (press 2,4,6,8 to draw)</option>
   <option value="ROM/TEST/TAPEWORM.ch8">TEST/TAPEWORM (Y to start, 2,4,6,8 to move)</option>
+  <option value="ROM/TEST/TIMEBOMB.ch8">TEST/TIMEBOMB</option>
+  <option value="ROM/15PUZZLE.ch8">15PUZZLE</option>
+  <option value="ROM/AIRPLANE.ch8">AIRPLANE</option>
+  <option value="ROM/BLINKY.ch8">BLINKY</option>
+  <option value="ROM/BLITZ.ch8">BLITZ</option>
+  <option value="ROM/BREAKOUT.ch8">BREAKOUT</option>
+  <option value="ROM/BRIX.ch8">BRIX</option>
+  <option value="ROM/CAVE.ch8">CAVE</option>
+  <option value="ROM/CONNECT4.ch8">CONNECT4</option>
+  <option value="ROM/FIGURES.ch8">FIGURES</option>
+  <option value="ROM/FILTER.ch8">FILTER</option>
+  <option value="ROM/GUESS.ch8">GUESS</option>
+  <option value="ROM/HIDDEN.ch8">HIDDEN</option>
+  <option value="ROM/INVADERS.ch8">INVADERS</option>
+  <option value="ROM/KALEID.ch8">KALEID</option>
+  <option value="ROM/LANDING.ch8">LANDING</option>
+  <option value="ROM/MAZE.ch8">MAZE</option>
+  <option value="ROM/MERLIN.ch8">MERLIN</option>
+  <option value="ROM/MISSILE.ch8">MISSILE</option>
+  <option value="ROM/PADDLES.ch8">PADDLES</option>
+  <option value="ROM/PONG(1P).ch8">PONG(1P)</option>
+  <option value="ROM/PONG.ch8">PONG</option>
+  <option value="ROM/PONG2.ch8">PONG2</option>
+  <option value="ROM/PUZZLE.ch8">PUZZLE</option>
+  <option value="ROM/ROCKET.ch8">ROCKET</option>
+  <option value="ROM/SOCCER.ch8">SOCCER</option>
+  <option value="ROM/SPACEF.ch8">SPACEF</option>
+  <option value="ROM/SQUASH.ch8">SQUASH</option>
+  <option value="ROM/SYZYGY.ch8">SYZYGY</option>
+  <option value="ROM/TANK.ch8">TANK</option>
+  <option value="ROM/TETRIS.ch8">TETRIS</option>
+  <option value="ROM/TICTAC.ch8">TICTAC</option>
+  <option value="ROM/TRON.ch8">TRON</option>
+  <option value="ROM/UFO.ch8">UFO</option>
+  <option value="ROM/VBRIX.ch8">VBRIX</option>
+  <option value="ROM/VERS.ch8">VERS</option>
+  <option value="ROM/WALL.ch8">WALL</option>
+  <option value="ROM/WIPEOFF.ch8">WIPEOFF</option>
 </select>
-<button onclick=z(rom.value);this.disabled="disabled">Play</button>
+<button onclick=z(rom.value);rom.disabled="disabled">Play</button>
 <button onclick=location=location>Reset</button>
 <br>
 <br>
@@ -45,3 +85,4 @@ Choose a ROM:
 <br>
 <br>
 © 2014 - <a href=//xem.github.io>xem</a>
+</body>
