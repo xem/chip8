@@ -86,9 +86,8 @@ window.z = function(path){
         NN = opcode & 0xFF;
         N = opcode & 0xF;
         X = opcode >> 8 & 0xF;
-        Y = opcode >> 4 & 0xF;
         VX = V[X];
-        VY = V[Y];
+        VY = V[opcode >> 4 & 0xF];
         
         // 00E0: clear
         if(opcode == 0xE0){
@@ -162,18 +161,19 @@ window.z = function(path){
             V[X] &= VY;
           }
           
-          // 8XY3: set VX to VX xor VY
+          // 8XY3: set VX to VX XOR VY
           if(N == 3){
             V[X] ^= VY;
           }
           
           // 8XY4: add VY to VX, put carry in VF
           if(N == 4){
-            tmp = V[X] += VY;
-            V[0xF] = tmp >> 8;
+            V[X] += VY;
+            V[0xF] = VX >> 8;
+            V[X] &= 0xFF;
           }
           
-          // 8XY5: substract VY to VX, put carry in VF
+          // 8XY5: substract VY to VX, put carry in VF (is it correct?)
           if(N == 5){
             tmp = V[X] -= VY;
             V[0xF] = ~~(tmp < 0);
@@ -185,10 +185,10 @@ window.z = function(path){
             V[X] >>= 1;
           }
           
-          // 8XY7: VX = VY - VX, set carry to VF
+          // 8XY7: VX = VY - VX, set carry to VF (is it correct?)
           if(N == 7){
-            tmp = V[X] = VY - VX;
-            V[0xF] = ~~(tmp < 0);
+            V[0xF] = ~~(VY < VX);
+            V[X] = VY - VX;
           }
           
           // 8XYE: left shift VX, put shifted bit in VF
@@ -236,11 +236,10 @@ window.z = function(path){
           
           // FX0A: prompt, store key pressed in VX
           if(NN == 0x0A){
-            if(~(tmp = keys_pressed.indexOf(true))){
-              V[X] = tmp; 
-            }
-            else{
-              pc -= 2;
+          
+            // Loop until VX != -1
+            if(!~(V[X] = keys_pressed.indexOf(true))){
+              pc -= 2; 
             }
           }
           
@@ -257,7 +256,7 @@ window.z = function(path){
           // FX1E: add VX to I, set VF to I's overflow (I>0xFFF)
           if(NN == 0x1E){
             I += VX;
-            V[0xF] = I >> 12;
+            V[0xF] = (I > 0xFFF) + 0;
             I &= 0xFFF;
           }
           
@@ -275,15 +274,15 @@ window.z = function(path){
           
           // FX55: store V0 to VX in memory from address I
           if(NN == 0x55){
-            for(i = 0; i < X; i++){
-              memory[I + X] = VX;
+            for(i = X; i--;){
+              memory[I + i] = V[i];
             }
           }
           
           // FX65: load V0 to VX from memory at address I
           if(NN == 0x65){
-            for(i = 0; i < X; i++){
-              V[X] = memory[I + X];
+            for(i = X; i--;){
+              V[i] = memory[I + i];
             }
           }
         }
