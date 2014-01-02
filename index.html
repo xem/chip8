@@ -1,3 +1,18 @@
+<meta charset=utf-8>
+<style>
+  body { text-align: center; font-family: arial; }
+  h1, h2 { margin: 0; }
+  canvas { background: #000; border: 1px solid; -webkit-transform: scale(9); transform: scale(9); -webkit-transform-origin: 50% 0; transform-origin: 50% 0; }
+</style>
+<br>
+<h1>1kb Chip8 emulator</h1>
+<b>in HTML5 & JavaScript</b>
+<br>
+<br>
+Source code <a href="c8.js">commented</a> - <a href="c8.min.js">minified</a> - <a href="c8.min.pack.js">packed</a>
+<br>
+<br>
+Choose a ROM:
 <select id=rom>
   <option value="ROM/TEST/C8PIC.ch8">TEST/C8PIC</option>
   <option value="ROM/TEST/IBM.ch8">TEST/IBM</option>
@@ -5,9 +20,28 @@
   <option value="ROM/TEST/X-MIRROR.ch8">TEST/X-MIRROR (press 2,4,6,8 to draw)</option>
   <option value="ROM/TEST/TAPEWORM.ch8">TEST/TAPEWORM (Y to start, 2,4,6,8 to move)</option>
 </select>
-<button onclick=c8(rom.value)>Play</button>
+<button onclick=c8(rom.value);this.disabled="disabled">Play</button>
 <button onclick=location=location>Reset</button>
 <br>
-<canvas id=C width=64 height=32 style="background:#000;border:1px solid;-webkit-transform:scale(5);transform:scale(5);-webkit-transform-origin:0 0;transform-origin:0 0">
-<audio id=a>
-<script src=c8.min.js></script>
+<br>
+<br>
+<canvas id=C width=64 height=32></canvas>
+<audio id=a></audio>
+<script src=c8.js></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+© 2014 - <a href=//xem.github.io>xem</a>

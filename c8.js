@@ -1,4 +1,4 @@
-window.c8 = function(path){
+window.z = function(path){
 
   /** Initialization **/
   
