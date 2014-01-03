@@ -5,13 +5,22 @@
   h1, h2 { margin: 0; }
   canvas { background: #000; border: 1px solid; -webkit-transform: scale(9); transform: scale(9); -webkit-transform-origin: 50% 0; transform-origin: 50% 0; }
 </style>
+<script>
+  // Audio shim for Webkit
+  if(this.webkitAudioContext) AudioContext = webkitAudioContext;
+  
+  // No audio for IE / old browsers
+  if(!this.AudioContext) AudioContext = 0;
+</script>
 <body onload=rom.disabled="">
-<br>
 <h1>1kb Chip8 emulator</h1>
 <b>in HTML5 & JavaScript</b>
 <br>
 <br>
-Source code <a href="c8.js">commented</a> - <a href="c8.min.js">minified</a> - <a href="c8.min.pack.js">packed</a>
+controls: numpad 0-9 + QWERTY
+<br>
+<br>
+Source code <a href="c8.js">commented</a> <!--- <a href="c8.min.js">minified</a> - <a href="c8.min.pack.js">packed</a>-->
 <br>
 <br>
 Choose a ROM:
@@ -21,7 +30,7 @@ Choose a ROM:
   <option value="ROM/TEST/Rocket2.ch8">TEST/Rocket2 (press Y to launch)</option>
   <option value="ROM/TEST/X-MIRROR.ch8">TEST/X-MIRROR (press 2,4,6,8 to draw)</option>
   <option value="ROM/TEST/TAPEWORM.ch8">TEST/TAPEWORM (Y to start, 2,4,6,8 to move)</option>
-  <option value="ROM/TEST/TIMEBOMB.ch8">TEST/TIMEBOMB</option>
+  <option value="ROM/TEST/TIMEBOMB.ch8">TEST/TIMEBOMB (set up with 2 and 8, start with 5)</option>
   <option value="ROM/15PUZZLE.ch8">15PUZZLE</option>
   <option value="ROM/AIRPLANE.ch8">AIRPLANE</option>
   <option value="ROM/BLINKY.ch8">BLINKY</option>
@@ -66,7 +75,6 @@ Choose a ROM:
 <br>
 <br>
 <canvas id=C width=64 height=32></canvas>
-<audio id=a></audio>
 <script src=c8.js></script>
 <br>
 <br>
