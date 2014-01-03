@@ -8,9 +8,9 @@ window.z = function(path){
   // Canvas
   imageData = (c = C.getContext("2d")).createImageData(64, 32);
 
-  // All pixels are white, we just toggle their opacity to have black / white
+  // The canvas is white. The pixels are black. We just have to toggle their opacity to render black or white
   for(i=64*32*4; i--;){
-    imageData.data[i] = i%4-3 ? 255 : 0;
+    imageData.data[i] = i%4-3 ? 0 : 255;
   }
 
   // Audio
@@ -70,7 +70,7 @@ window.z = function(path){
 
     /** Loop **/
     interval = setInterval(function(){
-
+    
       // Decrement the timers while > 0
       timer && timer--;
       sound_timer && sound_timer--;
@@ -106,7 +106,7 @@ window.z = function(path){
 
         // Read opcode
         opcode = memory[pc] << 8 | memory[pc+1];
-        //console.log("@"+pc + ": "+("00" + opcode.toString(16)).slice(-4));
+        console.log("@"+pc + ": "+("00" + opcode.toString(16)).slice(-4));
 
         // Read opcode fields
         prefix = opcode >> 12;
@@ -120,7 +120,7 @@ window.z = function(path){
         // 00E0: clear
         if(opcode == 0xE0){
           for(i = 64*32*4; i--;){
-            imageData.data[i] = i%4-3 ? 255 : 0;
+            imageData.data[i] = i%4-3 ? 0 : 255;
           }
         }
 
@@ -261,14 +261,14 @@ window.z = function(path){
                   y -= 31;
                 }
 
-                // If the pixel is already white, make it black, VF = 1. Else, make it white.
+                // If the pixel is already white (opacity == 0), make it black and set VF to 1. Else, make it white.
                 tmp = 4*(64*y+x)+3;
                 if(imageData.data[tmp]){
                   imageData.data[tmp] = 0;
-                  V[0xF] = 1;
                 }
                 else{
                   imageData.data[tmp] = 255;
+                  V[0xF] = 1;
                 }
               }
             }
@@ -342,6 +342,7 @@ window.z = function(path){
 
       // Refresh screen
       c.putImageData(imageData, 0, 0);
+      console.log(imageData.data);
 
     },16);
   }
