@@ -58,7 +58,7 @@ t.onload=function(){
       if(13==f)for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1));
       if(15==f){
         7==d&&(V[b]=w);
-        10==d&&(~(V[b]=s.indexOf(!0))||(h-=2));
+        10==d&&(~(V[b]=s.indexOf('w'))||(h-=2));
         21==d&&(w=z);
         30==d&&(k+=z,V[15]=+(4095<k),k&=4095);
         41==d&&(k=5*z);
@@ -77,7 +77,7 @@ t.onload=function(){
     C.putImageData(q,0,0)
   },16)
 }
-onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=!!a.type[5]}
+onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=a.type[5]}
 
 // Golf ends here
 
