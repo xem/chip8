@@ -16,7 +16,7 @@ s=[];
 with(new XMLHttpRequest)
 open("GET",location.hash.slice(1)),
 send(responseType="arraybuffer",onload=function(){
-  u=new Uint8Array(this.response);
+  u=new Uint8Array(response);
   for(a=3584;a--;)
     n[a+512]=u[a];
   setInterval(function(){
