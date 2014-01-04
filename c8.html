@@ -1,3 +1,4 @@
+<canvas id=C width=64></canvas><a href=//github.com/xem/chip8><img style="position:absolute;top:0;right:0;border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a><h1>1kb chip8 emulator</h1><h2>Commented cource code, with sound</h2><div><a href=.>Homepage</a><br><br>Choose a ROM:<br><a href="c8.html?1#ROM/TEST/C8PIC.ch8">C8PIC</a><br><a href="c8.html?2#ROM/TEST/IBM.ch8">IBM</a><br><a href="c8.html?3#ROM/TEST/Rocket2.ch8">Rocket2</a> (press Y to launch)<br><a href="c8.html?4#ROM/TEST/X-MIRROR.ch8">X-MIRROR</a> (press 2,4,6,8 to draw)<br><a href="c8.html?5#ROM/TEST/TAPEWORM.ch8">TAPEWORM</a> (Y to start, 2,4,6,8 to move)<br><a href="c8.html?6#ROM/TEST/TIMEBOMB.ch8">TIMEBOMB</a> (set up with 2 and 8, start with 5)<br><a href="c8.html?8#ROM/AIRPLANE.ch8">AIRPLANE</a> (send bombs with 2)<br><a href="c8.html?10#ROM/BLITZ.ch8">BLITZ</a> (send bombs with 2)<br><a href="c8.html?11#ROM/BREAKOUT.ch8">BREAKOUT</a> (move with 4 and 6)<br><a href="c8.html?12#ROM/BRIX.ch8">BRIX</a> (move with 4 and 6)<br><a href="c8.html?13#ROM/CAVE.ch8">CAVE</a> (start with Y, move with 2,4,6,8)<br><a href="c8.html?14#ROM/CONNECT4.ch8">CONNECT4</a><br><a href="c8.html?15#ROM/FIGURES.ch8">FIGURES</a><br><a href="c8.html?16#ROM/FILTER.ch8">FILTER</a><br><a href="c8.html?17#ROM/GUESS.ch8">GUESS</a><br><a href="c8.html?18#ROM/HIDDEN.ch8">HIDDEN</a><br><a href="c8.html?19#ROM/INVADERS.ch8">INVADERS</a><br><a href="c8.html?20#ROM/KALEID.ch8">KALEID</a><br><a href="c8.html?21#ROM/LANDING.ch8">LANDING</a><br><a href="c8.html?22#ROM/MAZE.ch8">MAZE</a><br><a href="c8.html?23#ROM/MERLIN.ch8">MERLIN</a><br><a href="c8.html?24#ROM/MISSILE.ch8">MISSILE</a><br><a href="c8.html?25#ROM/PADDLES.ch8">PADDLES</a><br><a href="c8.html?26#ROM/PONG (1P).ch8">PONG (1P)</a><br><a href="c8.html?27#ROM/PONG.ch8">PONG</a><br><a href="c8.html?28#ROM/PONG2.ch8">PONG2</a><br><a href="c8.html?29#ROM/PUZZLE.ch8">PUZZLE</a><br><a href="c8.html?30#ROM/ROCKET.ch8">ROCKET</a><br><a href="c8.html?31#ROM/SOCCER.ch8">SOCCER</a><br><a href="c8.html?32#ROM/SPACEF.ch8">SPACEF</a><br><a href="c8.html?33#ROM/SQUASH.ch8">SQUASH</a><br><a href="c8.html?34#ROM/SYZYGY.ch8">SYZYGY</a><br><a href="c8.html?35#ROM/TANK.ch8">TANK</a><br><a href="c8.html?36#ROM/TETRIS.ch8">TETRIS</a><br><a href="c8.html?37#ROM/TICTAC.ch8">TICTAC</a><br><a href="c8.html?38#ROM/TRON.ch8">TRON</a><br><a href="c8.html?39#ROM/UFO.ch8">UFO</a><br><a href="c8.html?40#ROM/VBRIX.ch8">VBRIX</a><br><a href="c8.html?41#ROM/VERS.ch8">VERS</a><br><a href="c8.html?42#ROM/WALL.ch8">WALL</a><br><a href="c8.html?43#ROM/WIPEOFF.ch8">WIPEOFF</a><br><br></div><style>*{text-indent:-9999;color:#fff;font-family:arial}h1,h2,div{color: #000;text-indent:0}a{color:blue}h1,h2,canvas{position:absolute;left:10px}canvas{overflow:hidden;top:100px;-webkit-transform:scale(4);transform:scale(4);-webkit-transform-origin:0 0;transform-origin:0 0}h1{top:0;text-indent:0}h2{top:40px;text-indent:0}div{position:absolute;top:250px}</style><script>
 /** Initialization **/
 
 // Vars
@@ -6,7 +7,7 @@ var imageData, audio, oscillator, i, memory, stack, pc, sp, I, timer, sound_time
 // Canvas
 
 // The context2D (C) already exists
-imageData = C.createImageData(64, 32);
+imageData = (C = C.getContext("2d")).createImageData(64, 32);
 
 // The canvas is white. The pixels are black. We just have to toggle their opacity to render black or white
 for(i=64*32*4; i--;){
@@ -26,7 +27,7 @@ audio = AudioContext && new AudioContext;
 // Memory
 memory = [];
 
-// Sprites of the characters 0-9,A-F (8*5px) are placed in the 160 first indexes of memory: 0xF0, 0x90, ...
+// Sprites of the characters 0-9,A-F (8*5px) are placed in the 160 first c8es of memory: 0xF0, 0x90, ...
 for(i=80; i--;){
   memory[i] = eval("0x" + "F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[i] + "0");
 }
@@ -63,7 +64,7 @@ keys_pressed = [];
 /** Load ROM **/
 
 xhr = new XMLHttpRequest;
-xhr.open('GET', path);
+xhr.open('GET', location.hash.slice(1));
 xhr.responseType = 'arraybuffer';
 xhr.send();
 xhr.onload = function(){
@@ -111,7 +112,7 @@ xhr.onload = function(){
 
       // Read opcode
       opcode = memory[pc] << 8 | memory[pc+1];
-      console.log("@"+pc + ": "+("00" + opcode.toString(16)).slice(-4));
+      //console.log("@"+pc + ": "+("00" + opcode.toString(16)).slice(-4));
 
       // Read opcode fields
       prefix = opcode >> 12;
@@ -292,7 +293,7 @@ xhr.onload = function(){
         if(NN == 0x0A){
 
           // Loop until VX != -1
-          if(!~(V[X] = keys_pressed.indexOf(!0))){
+          if(!~(V[X] = keys_pressed.c8Of(!0))){
             pc -= 2;
           }
         }
@@ -358,3 +359,4 @@ onkeydown = function(e){
 onkeyup = function(e){
   keys_pressed[keys.indexOf(e.keyCode)] = !1;
 }
+</script>

@@ -1,0 +1,84 @@
+<canvas id=C width=64></canvas><a href=//github.com/xem/chip8><img style="position:absolute;top:0;right:0;border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a><h1>1kb chip8 emulator</h1><h2>Minified & golfed source code</h2><div><a href=.>Homepage</a><br><br>Choose a ROM:<br><a href="c8.min.html?1#ROM/TEST/C8PIC.ch8">C8PIC</a><br><a href="c8.min.html?2#ROM/TEST/IBM.ch8">IBM</a><br><a href="c8.min.html?3#ROM/TEST/Rocket2.ch8">Rocket2</a> (press Y to launch)<br><a href="c8.min.html?4#ROM/TEST/X-MIRROR.ch8">X-MIRROR</a> (press 2,4,6,8 to draw)<br><a href="c8.min.html?5#ROM/TEST/TAPEWORM.ch8">TAPEWORM</a> (Y to start, 2,4,6,8 to move)<br><a href="c8.min.html?6#ROM/TEST/TIMEBOMB.ch8">TIMEBOMB</a> (set up with 2 and 8, start with 5)<br><a href="c8.min.html?8#ROM/AIRPLANE.ch8">AIRPLANE</a> (send bombs with 2)<br><a href="c8.min.html?10#ROM/BLITZ.ch8">BLITZ</a> (send bombs with 2)<br><a href="c8.min.html?11#ROM/BREAKOUT.ch8">BREAKOUT</a> (move with 4 and 6)<br><a href="c8.min.html?12#ROM/BRIX.ch8">BRIX</a> (move with 4 and 6)<br><a href="c8.min.html?13#ROM/CAVE.ch8">CAVE</a> (start with Y, move with 2,4,6,8)<br><a href="c8.min.html?14#ROM/CONNECT4.ch8">CONNECT4</a><br><a href="c8.min.html?15#ROM/FIGURES.ch8">FIGURES</a><br><a href="c8.min.html?16#ROM/FILTER.ch8">FILTER</a><br><a href="c8.min.html?17#ROM/GUESS.ch8">GUESS</a><br><a href="c8.min.html?18#ROM/HIDDEN.ch8">HIDDEN</a><br><a href="c8.min.html?19#ROM/INVADERS.ch8">INVADERS</a><br><a href="c8.min.html?20#ROM/KALEID.ch8">KALEID</a><br><a href="c8.min.html?21#ROM/LANDING.ch8">LANDING</a><br><a href="c8.min.html?22#ROM/MAZE.ch8">MAZE</a><br><a href="c8.min.html?23#ROM/MERLIN.ch8">MERLIN</a><br><a href="c8.min.html?24#ROM/MISSILE.ch8">MISSILE</a><br><a href="c8.min.html?25#ROM/PADDLES.ch8">PADDLES</a><br><a href="c8.min.html?26#ROM/PONG (1P).ch8">PONG (1P)</a><br><a href="c8.min.html?27#ROM/PONG.ch8">PONG</a><br><a href="c8.min.html?28#ROM/PONG2.ch8">PONG2</a><br><a href="c8.min.html?29#ROM/PUZZLE.ch8">PUZZLE</a><br><a href="c8.min.html?30#ROM/ROCKET.ch8">ROCKET</a><br><a href="c8.min.html?31#ROM/SOCCER.ch8">SOCCER</a><br><a href="c8.min.html?32#ROM/SPACEF.ch8">SPACEF</a><br><a href="c8.min.html?33#ROM/SQUASH.ch8">SQUASH</a><br><a href="c8.min.html?34#ROM/SYZYGY.ch8">SYZYGY</a><br><a href="c8.min.html?35#ROM/TANK.ch8">TANK</a><br><a href="c8.min.html?36#ROM/TETRIS.ch8">TETRIS</a><br><a href="c8.min.html?37#ROM/TICTAC.ch8">TICTAC</a><br><a href="c8.min.html?38#ROM/TRON.ch8">TRON</a><br><a href="c8.min.html?39#ROM/UFO.ch8">UFO</a><br><a href="c8.min.html?40#ROM/VBRIX.ch8">VBRIX</a><br><a href="c8.min.html?41#ROM/VERS.ch8">VERS</a><br><a href="c8.min.html?42#ROM/WALL.ch8">WALL</a><br><a href="c8.min.html?43#ROM/WIPEOFF.ch8">WIPEOFF</a><br><br></div><style>*{text-indent:-9999;color:#fff;font-family:arial}h1,h2,div{color:#000;text-indent:0}a{color:blue}h1,h2,canvas{position:absolute;left:10px}canvas{overflow:hidden;top:100px;-webkit-transform:scale(4);transform:scale(4);-webkit-transform-origin:0 0;transform-origin:0 0}h1{top:0;text-indent:0}h2{top:40px;text-indent:0}div{position:absolute;top:250px}</style><script>
+
+// Golf starts here
+
+q=(C=C.getContext("2d")).createImageData(64,32);
+n=[];
+for(a=8192;a--;)
+  q.data[a]=a%4-3?0:255,
+  (a<80)&&(n[a]=eval("0x"+"F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[a]+0))
+V=new Uint8Array(new ArrayBuffer(16));
+D=[];
+h=512;
+g=r=w=k=0;
+E=[96,103,104,105,100,101,102,97,98,99,81,87,69,82,84,89];
+s=[];
+(t=new XMLHttpRequest).open("GET",location.hash.slice(1));
+t.responseType="arraybuffer";
+t.send();
+t.onload=function(){
+  u=new Uint8Array(t.response);
+  for(a=3584;a--;)
+    n[a+512]=u[a];
+  setInterval(function(){
+    w&&w--;
+    for(F=4;F--;){
+      p=n[h]<<8|n[h+1];
+      f=p>>12;
+      x=p&4095;
+      d=p&255;
+      l=p&15;
+      b=p>>8&15;
+      m=V[p>>4&15];
+      if(224==p)
+        for(a=8192;a--;)
+          q.data[a]=a%4-3?0:255;
+      238==p&&(h=D.pop());
+      1==f&&(h=x-2);
+      2==f&&(D.push(h),h=x-2);
+      if(3==f&&V[b]==d||4==f&&V[b]!=d||5==f&&V[b]==m||9==f&&V[b]!=m||14==f&&(158==d&&s[V[b]]||161==d&&!s[V[b]]))
+        h+=2;
+      6==f&&(V[b]=d);
+      7==f&&(V[b]=V[b]+d);
+      8==f&&(
+        l||(V[b]=m),
+        1==l&&(V[b]|=m),
+        2==l&&(V[b]&=m),
+        3==l&&(V[b]^=m),
+        4==l&&(V[15]=+(255<(V[b]+=m))),
+        5==l&&(V[15]=+(0<=(V[b]-=m))),
+        6==l&&(V[15]=V[b]&1,V[b]/=2),
+        7==l&&(V[15]=+(0<=(V[b]=m-V[b]))),
+        14==l&&(V[15]=V[b]>>7,V[b]*=2)
+      );
+      10==f&&(k=x);
+      11==f&&(h=x+V[0]);
+      12==f&&(V[b]=~~(Math.random()*d));
+      if(13==f)for(V[15]=0,a=l;a--;)for(B=8;B--;)y=V[b]+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1));
+      if(15==f){
+        7==d&&(V[b]=w);
+        10==d&&(~(V[b]=s.indexOf(!0))||(h-=2));
+        21==d&&(w=V[b]);
+        30==d&&(k+=V[b],V[15]=+(4095<k),k&=4095);
+        41==d&&(k=5*V[b]);
+        if(51==d)
+          for(a=3;a--;)
+            n[k+a]=(""+V[b])[a];
+        if(85==d)
+          for(a=b;a--;)
+            n[k+a]=V[a];
+        if(101==d)
+          for(a=b;a--;)
+            V[a]=n[k+a]
+      }
+      h+=2
+    }
+    C.putImageData(q,0,0)
+  },16)
+}
+onkeydown=function(a){s[E.indexOf(a.keyCode)]=!0};
+onkeyup= function(a){s[E.indexOf(a.keyCode)]=!1};
+
+// Golf ends here
+
+</script>
