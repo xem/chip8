@@ -13,11 +13,10 @@ D=[];
 h=512;
 g=r=w=k=0;
 s=[];
-(t=new XMLHttpRequest).open("GET",location.hash.slice(1));
-t.responseType="arraybuffer";
-t.send();
-t.onload=function(){
-  u=new Uint8Array(t.response);
+with(new XMLHttpRequest)
+open("GET",location.hash.slice(1)),
+send(responseType="arraybuffer",onload=function(){
+  u=new Uint8Array(this.response);
   for(a=3584;a--;)
     n[a+512]=u[a];
   setInterval(function(){
@@ -76,7 +75,7 @@ t.onload=function(){
     }
     C.putImageData(q,0,0)
   },16)
-}
+})
 onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=a.type[5]}
 
 // Golf ends here
