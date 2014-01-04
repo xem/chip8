@@ -29,8 +29,8 @@ t.onload=function(){
       b=p>>8&15;
       m=V[p>>4&15];
       if(224==p)
-        for(a=8192;a--;)
-          q.data[a]=a%4-3?0:255;
+        for(a=3;a<8192;a+=4)
+          q.data[a]=255;
       238==p&&(h=D.pop());
       1==f&&(h=x-2);
       2==f&&(D.push(h),h=x-2);
