@@ -29,6 +29,7 @@ t.onload=function(){
       d=p&255;
       l=p&15;
       b=p>>8&15;
+      z=V[b];
       m=V[p>>4&15];
       if(224==p)
         for(a=3;a<8192;a+=4)
@@ -36,10 +37,10 @@ t.onload=function(){
       238==p&&(h=D.pop());
       1==f&&(h=x-2);
       2==f&&(D.push(h),h=x-2);
-      if(3==f&&V[b]==d||4==f&&V[b]!=d||5==f&&V[b]==m||9==f&&V[b]!=m||14==f&&(158==d&&s[V[b]]||161==d&&!s[V[b]]))
+      if(3==f&&z==d||4==f&&z!=d||5==f&&z==m||9==f&&z!=m||14==f&&(158==d&&s[z]||161==d&&!s[z]))
         h+=2;
       6==f&&(V[b]=d);
-      7==f&&(V[b]=V[b]+d);
+      7==f&&(V[b]=z+d);
       8==f&&(
         l||(V[b]=m),
         1==l&&(V[b]|=m),
@@ -47,23 +48,23 @@ t.onload=function(){
         3==l&&(V[b]^=m),
         4==l&&(V[15]=+(255<(V[b]+=m))),
         5==l&&(V[15]=+(0<=(V[b]-=m))),
-        6==l&&(V[15]=V[b]&1,V[b]/=2),
-        7==l&&(V[15]=+(0<=(V[b]=m-V[b]))),
-        14==l&&(V[15]=V[b]>>7,V[b]*=2)
+        6==l&&(V[15]=z&1,V[b]/=2),
+        7==l&&(V[15]=+(0<=(V[b]=m-z))),
+        14==l&&(V[15]=z>>7,V[b]*=2)
       );
       10==f&&(k=x);
       11==f&&(h=x+V[0]);
       12==f&&(V[b]=~~(Math.random()*d));
-      if(13==f)for(V[15]=0,a=l;a--;)for(B=8;B--;)y=V[b]+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1));
+      if(13==f)for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1));
       if(15==f){
         7==d&&(V[b]=w);
         10==d&&(~(V[b]=s.indexOf(!0))||(h-=2));
-        21==d&&(w=V[b]);
-        30==d&&(k+=V[b],V[15]=+(4095<k),k&=4095);
-        41==d&&(k=5*V[b]);
+        21==d&&(w=z);
+        30==d&&(k+=z,V[15]=+(4095<k),k&=4095);
+        41==d&&(k=5*z);
         if(51==d)
           for(a=3;a--;)
-            n[k+a]=(""+V[b])[a];
+            n[k+a]=(""+z)[a];
         if(85==d)
           for(a=b;a--;)
             n[k+a]=V[a];
@@ -76,7 +77,7 @@ t.onload=function(){
     C.putImageData(q,0,0)
   },16)
 }
-onkeydown=onkeyup=function(a){s[[96,103,104,105,100,101,102,97,98,99,81,87,69,82,84,89].indexOf(a.keyCode)]=!!a.type[5]}
+onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=!!a.type[5]}
 
 // Golf ends here
 
