@@ -8,16 +8,15 @@ for(a=80;a--;)
   n[a]=eval("0x"+"F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[a]+0);
 for(a=3;a<8192;a+=4)
   q.data[a]=255;
-V=new Uint8Array(new ArrayBuffer(16));
+V=(U=Uint8Array)(16);
 D=[];
 h=512;
 g=r=w=k=0;
 s=[];
-(t=new XMLHttpRequest).open("GET",location.hash.slice(1));
-t.responseType="arraybuffer";
-t.send();
-t.onload=function(){
-  u=new Uint8Array(t.response);
+with(new XMLHttpRequest)
+open("GET",location.hash.slice(1)),
+send(responseType="arraybuffer",onload=function(){
+  u=U(response);
   for(a=3584;a--;)
     n[a+512]=u[a];
   setInterval(function(){
@@ -58,7 +57,7 @@ t.onload=function(){
       if(13==f)for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1));
       if(15==f){
         7==d&&(V[b]=w);
-        10==d&&(~(V[b]=s.indexOf(!0))||(h-=2));
+        10==d&&(~(V[b]=s.indexOf('w'))||(h-=2));
         21==d&&(w=z);
         30==d&&(k+=z,V[15]=+(4095<k),k&=4095);
         41==d&&(k=5*z);
@@ -76,8 +75,8 @@ t.onload=function(){
     }
     C.putImageData(q,0,0)
   },16)
-}
-onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=!!a.type[5]}
+})
+onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=a.type[5]}
 
 // Golf ends here
 
