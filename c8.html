@@ -15,14 +15,7 @@ for(i=64*32*4; i--;){
 }
 
 // Audio
-
-// Audio shim for Webkit
-if(this.webkitAudioContext) AudioContext = webkitAudioContext;
-
-// No audio for IE / old browsers
-if(!this.AudioContext) AudioContext = 0;
-
-audio = AudioContext && new AudioContext;
+audio = new (AudioContext = this.AudioContext || webkitAudioContext || 0);
 
 // Memory
 memory = [];
