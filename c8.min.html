@@ -30,8 +30,16 @@ send(responseType="arraybuffer",onload=function(){
       b=p>>8&15;
       z=V[b];
       m=V[p>>4&15];
-      if(8==f){
-        eval([
+      eval([
+        "if(l)h=D.pop();else for(a=3;8192>a;a+=4)q.data[a]=255",
+        "h=x-2",
+        "D.push(h),h=x-2",
+        "if(z==d)h+=2",
+        "if(z!=d)h+=2",
+        "if(z==m)h+=2",
+        "V[b]=d",
+        "V[b]=z+d",
+        [
           "V[b]=m",
           "V[b]|=m",
           "V[b]&=m",
@@ -47,10 +55,13 @@ send(responseType="arraybuffer",onload=function(){
           ,
           ,
           "V[15]=z>>7;V[b]*=2"
-        ][l]);
-      }
-      else if(15==f)
-        eval(
+        ][l],
+        "if(z!=m)h+=2",
+        "k=x",
+        "h=x+V[0]",
+        "V[b]=~~(Math.random()*d)",
+        "for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1))",
+        "if((158==d&&s[z])||(161==d&&!s[z]))h+=2",
         [
           "w=z",
           "k=5*z",
@@ -64,25 +75,8 @@ send(responseType="arraybuffer",onload=function(){
           "k+=z;V[15]=+(4095<k);k&=4095",
           ,
           "for(a=3;a--;)n[k+a]=(''+z)[a]"
-        ][d%19-2]);
-      else
-        eval([
-          "if(l)h=D.pop();else for(a=3;8192>a;a+=4)q.data[a]=255",
-          "h=x-2",
-          "D.push(h),h=x-2",
-          "if(z==d)h+=2",
-          "if(z!=d)h+=2",
-          "if(z==m)h+=2",
-          "V[b]=d",
-          "V[b]=z+d",
-          ,
-          "if(z!=m)h+=2",
-          "k=x",
-          "h=x+V[0]",
-          "V[b]=~~(Math.random()*d)",
-          "for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1))",
-          "if((158==d&&s[z])||(161==d&&!s[z]))h+=2"
-        ][f]);
+        ][d%19-2]
+      ][f]);
       h+=2
     }
     C.putImageData(q,0,0)
