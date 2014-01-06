@@ -15,11 +15,11 @@ g=r=w=k=0;
 s=[];
 with(new XMLHttpRequest)
 open("GET",location.hash.slice(1)),
-send(responseType="arraybuffer",onload=function(){
+send(responseType="arraybuffer",onload=function(c){
   u=new U(response);
   for(a=3584;a--;)
     n[a+512]=u[a];
-  setInterval(function(){
+  setInterval(function(c){
     w&&w--;
     for(F=4;F--;){
       p=n[h]<<8|n[h+1];
@@ -39,50 +39,21 @@ send(responseType="arraybuffer",onload=function(){
         "if(z==m)h+=2",
         "V[b]=d",
         "V[b]=z+d",
-        [
-          "V[b]=m",
-          "V[b]|=m",
-          "V[b]&=m",
-          "V[b]^=m",
-          "V[15]=+(255<(V[b]+=m))",
-          "V[15]=+(0<=(V[b]-=m))",
-          "V[15]=z&1;V[b]/=2",
-          "V[15]=+(0<=(V[b]=m-z))",
-          ,
-          ,
-          ,
-          ,
-          ,
-          ,
-          "V[15]=z>>7;V[b]*=2"
-        ][l],
+        "V[b]=mPV[b]|=mPV[b]&=mPV[b]^=mPV[15]=+(255<(V[b]+=m))PV[15]=+(0<=(V[b]-=m))PV[15]=z&1;V[b]/=2PV[15]=+(0<=(V[b]=m-z))PPPPPPPV[15]=z>>7;V[b]*=2".split("P")[l],
         "if(z!=m)h+=2",
         "k=x",
         "h=x+V[0]",
         "V[b]=~~(Math.random()*d)",
         "for(V[15]=0,a=l;a--;)for(B=8;B--;)y=z+B,A=m+a,(n[k+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,V[15]=1))",
         "if((158==d&&s[z])||(161==d&&!s[z]))h+=2",
-        [
-          "w=z",
-          "k=5*z",
-          ,
-          ,
-          "for(a=b;a--;)V[a]=n[k+a]",
-          "V[b]=w",
-          ,
-          "for(a=b;a--;)n[k+a]=V[a]",
-          "~(V[b]=s.indexOf('w'))||(h-=2)",
-          "k+=z;V[15]=+(4095<k);k&=4095",
-          ,
-          "for(a=3;a--;)n[k+a]=(''+z)[a]"
-        ][d%19-2]
+        "w=zPk=5*zPPPfor(a=b;a--;)V[a]=n[k+a]PV[b]=wPPfor(a=b;a--;)n[k+a]=V[a]P~(V[b]=s.indexOf('w'))||(h-=2)Pk+=z;V[15]=+(4095<k);k&=4095PPfor(a=3;a--;)n[k+a]=(''+z)[a]".split("P")[d%19-2]
       ][f]);
       h+=2
     }
     C.putImageData(q,0,0)
   },16)
 })
-onkeydown=onkeyup=function(a){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(a.keyCode%48)]=a.type[5]}
+onkeydown=onkeyup=function(c){s[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)]=c.type[5]}
 
 // Golf ends here
 
