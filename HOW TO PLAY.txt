@@ -1,13 +1,12 @@
 HOW TO PLAY
 
 - Golf c8.min.html
-- Pass the code in closure compiler ("simple" mode)
-- Put the tesult in before_png.js
+- Copy the JS in before_png.js
 - Remove q=C.createImageData(64,32);
 - Put "V.width=64;" at the beginning
-- Replace "eval"s with "e"
-- Execute jsexe -cn before_png after.html
-- Replace the code at the end of after.html with this:
+- Replace "eval"'s with "e"
+- Execute jsexe -cn before_png.js index.html
+- Replace the code at the end of index.html with this:
 
 <canvas id=V><img src=# onload=C=V.getContext('2d');for($=_='';C.drawImage(this,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)>
 <!-- the above xxxx bytes load the chip8 ROM asked in the URL's hash and emulates it. -->
