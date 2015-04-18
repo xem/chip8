@@ -20,7 +20,7 @@ audio = new (AudioContext = this.AudioContext || webkitAudioContext || 0);
 // Memory
 memory = [];
 
-// Sprites of the characters 0-9,A-F (8*5px) are placed in the 160 first c8es of memory: 0xF0, 0x90, ...
+// Sprites of the characters 0-9,A-F (8*5px) are placed in the 160 first addresses of memory: 0xF0, 0x90, ...
 for(i=80; i--;){
   memory[i] = eval("0x" + "F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[i] + "0");
 }
