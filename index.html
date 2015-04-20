@@ -114,9 +114,21 @@
       var TOKEN_RELOAD_ONORIENTATIONCHANGE = false;
     </script>
     <script type="demo">
+    
+    
+    
+    
       // THIS IS WHERE YOUR DEMO GOES
-      
       l = function(a){console.log(a)};
+    
+    
+    
+    
+    
+    
+    
+    
+      
       
       /*************************/
       /** JS1k Chip8 emulator **/
@@ -140,7 +152,7 @@
       
       // h:
       
-      // i: address register
+      // i: address register (set to 0 after init)
       
       // j: 
       
@@ -188,6 +200,12 @@
       // s: stack
       s = [];
       
+      // t: timer
+      t =
+      
+      // u: sound timer
+      u = 0;
+      
       
       
       /** Event listeners **/
@@ -199,6 +217,11 @@
         k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
       }
       
+      
+      /** File input **/
+      document.write("<input type=file>");
+
+      
       // Tests
       
       l(m);
@@ -206,9 +229,27 @@
       a.style.border = "1px solid";
       a.style.transform = "scale(5)";
       a.style.margin = "80px auto";
-      a.style.imageResizing = "pixelated";
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       // END
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
     </script>
     <script>
       (function(){var doc=document;var header=doc.getElementsByTagName("header")[0];var firstChild=header.firstChild;var p=doc.getElementsByClassName("p")[0];var n=doc.getElementsByClassName("n")[0];header.insertBefore(p,firstChild);header.insertBefore(n,firstChild);header.appendChild(doc.getElementsByTagName("p")[0])})();
