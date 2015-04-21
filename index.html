@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html><!-- note: your demo in this shim runs in an iframe with this content: https://gist.github.com/qfox/3cccc4f36c8319e09bb7 --><!--
+<!doctype html>
+<html>
+  <!-- note: your demo in this shim runs in an iframe with this content: https://gist.github.com/qfox/3cccc4f36c8319e09bb7 -->
+  <!--
   (c) js1k.com 2015
   Note: submissions belong to their respectful owner, do not copy without their consent
-  --><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  -->
+  <head>
     <meta charset="utf-8">
     <title>JS1k 2015 - NNNN - TITLE</title>
     <meta name="author" content="YOU">
@@ -30,36 +32,36 @@
     </style>
   </head>
   <body>
-    <header><a href="http://js1k.com/2015-hypetrain/500" class="button p">↞</a><a href="http://js1k.com/2015-hypetrain/502" class="button n">↠</a>
-      <div title="restart just the demo (local, without remote fetch)" class="button r">↻</div><div>
+    <header>
+      <div>
         <h1>
           <a href="http://js1k.com/">JS1k</a>
           <a href="http://js1k.com/2015-hypetrain">2015</a>
           <strong></strong> demo
-          —
+          &mdash;
           "TITLE" by YOU
         </h1>
-        
-        <aside>
-          —
-          1024 bytes
-          —
-          <a href="http://js1k.com/2015-hypetrain/details/NNNN">demo details</a>
-          —
-          <a href="http://js1k.com/2015-hypetrain/demos">list of demos</a>
-          —
-          <a href="http://js1k.com/1955" title="short link for your mobile devices" rel="nofollow">js1k.com/NNNN</a>
-          <time datetime="NOW" pubdate="">NOW</time>
-        </aside>
-      </div>
-
-      
-      
-    <p>
+        <p>
           <em>
             FIRST PART OF YOUR DESC GOES HERE
           </em>
-        </p></header>
+        </p>
+        <aside>
+          &mdash;
+          1024 bytes
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/details/NNNN">demo details</a>
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/demos">list of demos</a>
+          &mdash;
+          <a href="http://js1k.com/1955" title="short link for your mobile devices" rel="nofollow">js1k.com/NNNN</a>
+          <time datetime="NOW" pubdate>NOW</time>
+        </aside>
+      </div>
+
+      <a href=".html" class="button p">&Larr;</a>
+      <a href=".html" class="button n">&Rarr;</a>
+    </header>
 
     <script type="shim">
       // SHIM (will be ran in the context of the iframe...)
@@ -105,22 +107,25 @@
       // true enables webgl shim (exposes `g`), false enables canvas shim (exposes `c`)
       var TOKEN_WEBGL = false;
       // px, 0 means always 100%
-      var TOKEN_MAX_WIDTH = 64;
+      var TOKEN_MAX_WIDTH = 640;
       // px, 0 means always 100%
-      var TOKEN_MAX_HEIGHT = 32;
+      var TOKEN_MAX_HEIGHT = 320;
       // only if width<100%
       var TOKEN_CENTER_CANVAS = true;
       // "press" reload button on orientation change?
-      var TOKEN_RELOAD_ONORIENTATIONCHANGE = false;
+      var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
     </script>
     <script type="demo">
-    
-    
-    
-    
       // THIS IS WHERE YOUR DEMO GOES
+      
+      
+      
+      
       l = function(a){console.log(a)};
-    
+      z = function(a){eval(a)};
+      
+      /** File input **/
+      document.write("<center><h3>Chip8 emulator</h3><br>Controls: QWERTY + Numpad<br>ROM: <input onchange=\"h='<pre>';with(new FileReader)readAsArrayBuffer(files[0]),onload=function(){for(i in u=new Uint8Array(result))h+=(i%16?' ':'\n'+(1e7+(+i)[t='toString'](16)).slice(-8)+' | ')+(0+u[i][t](16)).slice(-2);outerHTML=h}\"type=file><br><a href=roms.zip>All ROMs");
     
     
     
@@ -206,6 +211,16 @@
       // u: sound timer
       u = 0;
       
+      // v:
+      
+      // w:
+      
+      // x:
+      
+      // y:
+      
+      // z: eval
+      
       
       
       /** Event listeners **/
@@ -218,17 +233,13 @@
       }
       
       
-      /** File input **/
-      document.write("<input type=file>");
-
-      
       // Tests
       
       l(m);
       c.fillRect(4,8,10,20);
-      a.style.border = "1px solid";
-      a.style.transform = "scale(5)";
-      a.style.margin = "80px auto";
+      a.style.border = "2px solid";
+      a.style.marginTop = "9px";
+      
       
       
       
@@ -240,16 +251,6 @@
       
       
       // END
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
     </script>
     <script>
       (function(){var doc=document;var header=doc.getElementsByTagName("header")[0];var firstChild=header.firstChild;var p=doc.getElementsByClassName("p")[0];var n=doc.getElementsByClassName("n")[0];header.insertBefore(p,firstChild);header.insertBefore(n,firstChild);header.appendChild(doc.getElementsByTagName("p")[0])})();
@@ -259,7 +260,6 @@
       navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia;if(TOKEN_CANVAS_SHIM)iwin.a=canvas;iwin.b=idoc.body;if(TOKEN_CANVAS_SHIM){if(!TOKEN_WEBGL)iwin.c=canvas.getContext("2d");if(TOKEN_WEBGL)iwin.g=function(){iwin.onorientationchange=iwin.onresize=null;try{var o={antialias:true,stencil:true};var gl=canvas.getContext("webgl",o)||canvas.getContext("experimental-webgl",o);iwin.__glExts=["OES_texture_float","OES_texture_float_linear","OES_standard_derivatives","EXT_texture_filter_anisotropic",
         "MOZ_EXT_texture_filter_anisotropic","WEBKIT_EXT_texture_filter_anisotropic","WEBGL_compressed_texture_s3tc","MOZ_WEBGL_compressed_texture_s3tc","WEBKIT_WEBGL_compressed_texture_s3tc"].map(function(ext){return gl.getExtension(ext)})}catch(e){idoc.body.innerHTML="WebGL not supported.";iwin.a=iwin.b=iwin.c=iwin.d=null;throw e;}return gl}()}var demo=idoc.createElement("script");demo.textContent=doc.querySelector('script[type="demo"]').textContent;idoc.body.appendChild(demo);idoc.close();iframe.contentWindow.focus();
         var firstLine=doc.getElementsByTagName("div")[0];function reloadClick(b){doc.body.removeChild(iframe);r.parentElement.removeChild(r);iframe=null;r=null;idoc=null;header=null;reload(b)}window.reload=reloadClick;var r=doc.createElement("div");r.innerHTML="&#8635;";r.className="button r";r.title="restart just the demo (local, without remote fetch)";r.onclick=reloadClick;header.insertBefore(r,firstLine)})();
-    </script><iframe></iframe>
-  
-
-</body></html>
+    </script>
+  </body>
+</html>
