@@ -120,13 +120,14 @@
       
       
       
+      /** Temp **/
+      
       
       l = function(a){console.log(a)};
       z = function(a){eval(a)};
       
       /** File input **/
-      document.write("<center><h3>Chip8 emulator</h3><br>Controls: QWERTY + Numpad<br>ROM: <input onchange=\"h='<pre>';with(new FileReader)readAsArrayBuffer(files[0]),onload=function(){for(i in u=new Uint8Array(result))h+=(i%16?' ':'\n'+(1e7+(+i)[t='toString'](16)).slice(-8)+' | ')+(0+u[i][t](16)).slice(-2);outerHTML=h}\"type=file><br><a href=roms.zip>All ROMs");
-    
+      document.write("<center><input onchange='with(new FileReader)readAsArrayBuffer(files[0]),onload=()=>l(new Uint8Array(result))'type=file>");
     
     
     
@@ -188,7 +189,9 @@
       // n:
       
       // o: sound oscillator
+      
       // p: audio context
+      
       // as in:
       // with(o=(p=new AudioContext).createOscillator())connect(p.destination),start(0); o.stop()
       // or:
@@ -217,7 +220,7 @@
       
       // x:
       
-      // y:
+      // y: file input
       
       // z: eval
       
@@ -228,9 +231,9 @@
       // On keydown, c.type = "keydown", and c.type[5] is truthy ("w").
       // On keyup, c.type = "keyup", and c.type[5] is falsy (undefined).
       // We use that to update k (the keys state array).
-      onkeydown = onkeyup = function(c){
-        k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
-      }
+      onkeydown = onkeyup = c => k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
+      
+      setInterval("l(k)", 1000);
       
       
       // Tests
@@ -238,7 +241,7 @@
       l(m);
       c.fillRect(4,8,10,20);
       a.style.border = "2px solid";
-      a.style.marginTop = "9px";
+      a.style.margin = "1% auto";
       
       
       

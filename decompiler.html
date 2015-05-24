@@ -1,0 +1,207 @@
+<input onchange="p.innerHTML=p.innerHTML.substr(0,41);with(new FileReader)readAsArrayBuffer(files[0]),onload=function(){show(result)}"type=file>
+<pre id=p></pre>
+<script>
+show = function(r){
+  p.innerHTML = '\n\
+@    | hex   | opcode          | description \n\
+-------------------------------------------------------\n'
+  pc = 512;
+  u = new Uint8Array(r);
+  for(i = 0; i < u.length; i += 2){
+  
+    txt = "?               | ?";
+  
+    opcode = u[i] << 8 | u[i+1];
+    prefix = opcode >> 12;
+    NNN = ("00" + (opcode & 0xFFF).toString(16)).slice(-3);
+    nn = opcode & 0xFF;
+    NN = (0 + nn.toString(16)).slice(-2);
+    N = (opcode & 0xF).toString(16);
+    X = (opcode >> 8 & 0xF).toString(16);
+    Y = (opcode >> 4 & 0xF).toString(16);
+    
+    // 00E0: clear
+    if(opcode == 0xE0){
+      txt = "CLS             | clear screen";
+    }
+
+    // 00EE: return from subprogram
+    if(opcode == 0xEE){
+      txt = "RET             | return from subprogram";
+    }
+
+    // 1NNN: jump to NNN
+    if(prefix == 1){
+      txt = "JP 0x" + NNN + "        | jump to address 0x" + NNN;
+    }
+
+    // 2NNN: call subprogram at NNN
+    if(prefix == 2){
+      txt = "CALL 0x" + NNN + "      | call subprogram at address 0x" + NNN;
+    }
+
+    // 3XNN: ignore next opcode if VX == NN
+    if(prefix == 3){
+      txt = "SE V" + X + ", 0x" + NN + "     | ignore next opcode if V" + X + " == 0x" + NN;
+    }
+    
+    // 4XNN: ignore next opcode if VX != NN
+    if(prefix == 4){
+      txt = "SNE V" + X + ", 0x" + NN + "    | ignore next opcode if V" + X + " != 0x" + NN;
+    }
+    
+    // 5XY0: ignore next opcode if VX == VY
+    if(prefix == 5){
+      txt = "SE V" + X + ", V" + Y + "       | ignore next opcode if V" + X + " == V" + Y;
+    }
+    
+    // 9XY0: ignore next opcode if VX != VY
+    if(prefix == 9){
+      txt = "SNE V" + X + ", V" + Y + "      | ignore next opcode if V" + X + " != V" + Y;
+    }
+    
+    // EX9E: ignore next opcode if VX is pressed
+    if(prefix == 0xE && nn == 0x9e){
+      txt = "SKP V" + X + "          | ignore next opcode if the key in V" + X + " is pressed";
+    }
+    
+    // EXA1: ignore next opcode if VX is not pressed
+    if(prefix == 0xE && nn == 0xa1){
+      txt = "SKNP V" + X + "         | ignore next opcode if the key in V" + X + " is not pressed";
+    }
+
+    // 6XNN: set VX to NN
+    if(prefix == 6){
+      txt = "LD V" + X + ", 0x" + NN + "     | set V" + X + " to 0x" + NN;
+    }
+
+    // 7XNN: add NN to VX
+    if(prefix == 7){
+      txt = "ADD V" + X + ", 0x" + NN + "    | add 0x" + NN + "to V" + X;
+    }
+
+    // 8XYN:
+    if(prefix == 8){
+
+      // 8XY0: set VX to VY
+      if(!N){
+        txt = "LD V" + X + ", V" + Y + "       | set V" + X + " to V" + Y;
+      }
+
+      // 8XY1: set VX to VX OR VY
+      if(N == 1){
+        txt = "OR V" + X + ", V" + Y + "       | set V" + X + " to V" + X + " OR V" + Y;
+      }
+
+      // 8XY2: set VX to VX AND VY
+      if(N == 2){
+        txt = "AND V" + X + ", V" + Y + "      | set V" + X + " to V" + X + " AND V" + Y;
+      }
+
+      // 8XY3: set VX to VX XOR VY
+      if(N == 3){
+        txt = "XOR V" + X + ", V" + Y + "      | set V" + X + " to V" + X + " XOR V" + Y;
+      }
+
+      // 8XY4: add VY to VX, put carry in VF
+      if(N == 4){
+        txt = "ADD V" + X + ", V" + Y + "      | add V" + Y + " to V" + X + ", put carry in VF";
+      }
+
+      // 8XY5: substract VY to VX, put NOT borrow in VF
+      if(N == 5){
+        txt = "SUB V" + X + ", V" + Y + "      | substract V" + Y + " to V" + X + ", put !borrow in VF";
+      }
+
+      // 8XY6: right shift VX, put shifted bit in VF
+      if(N == 6){
+        txt = "SHR V" + X + "          | right shift V" + X + ", put shifted bit in VF";
+      }
+
+      // 8XY7: VX = VY - VX, put NOT borrow in VF
+      if(N == 7){
+        txt = "SUBN V" + X + ", V" + Y + "    | substract V" + X + " to V" + Y + ", put !borrow in VF";
+      }
+
+      // 8XYE: left shift VX, put shifted bit in VF
+      if(N == 0xE){
+        txt = "SHL V" + X + "          | left shift V" + X + ", put shifted bit in VF";
+      }
+    }
+
+    // ANNN: set I to NNN
+    if(prefix == 0xA){
+      txt = "LD I, 0x" + NNN + "     | set I to 0x" + NNN;
+    }
+
+    // BNNN: jump to NNN + V0
+    if(prefix == 0xB){
+      txt = "JP V0, 0x" + NNN + "    | jump to 0x" + NNN + " + V0";
+    }
+
+    // CXNN: set VX to a random number < NN
+    if(prefix == 0xC){
+      txt = "RND V" + X + ", 0x" + NN + "    | set V" + X + " to a random number < 0x" + NN;
+    }
+
+    // DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
+    if(prefix == 0xD){
+      txt = "DRW V" + X + ", V" + Y + ", 0x" + N + " | draw the 8*" + N + "px sprite stored at address I at coordinates [" + X + ":" + Y + "]";
+    }
+
+    // FXNN:
+    if(prefix == 0xF){
+
+      // FX07: set VX to the timer value
+      if(nn == 0x07){
+        txt = "LD V" + X + ", DT       | load timer value in V" + X;
+      }
+
+      // FX0A: prompt, store key pressed in VX
+      if(nn == 0x0A){
+        txt = "LD V" + X + ", K        | prompt, store key pressed in V" + X;
+      }
+
+      // FX15: set timer to VX
+      if(nn == 0x15){
+        txt = "LD DT, V" + X + "       | set timer to V" + X;
+      }
+
+      // FX18: set sound timer to VX
+      if(nn == 0x18){
+        txt = "LD ST, V" + X + "       | set sound timer to V" + X;
+      }
+
+      // FX1E: add VX to I, set VF to I's overflow (I>0xFFF)
+      if(nn == 0x1E){
+        txt = "ADD I, V" + X + "       | add V" + X + " to I, set VF to I's overflow";
+      }
+
+      // FX29: set I to the character VX
+      if(nn == 0x29){
+        txt = "LD F, V" + X + "        | set I to the character stored in V" + X;
+      }
+
+      // FX33: store the decimal value of VX in memory at address I (hundreds), I+1 (dozens), I+2 (units)
+      if(nn == 0x33){
+        txt = "LD B, V" + X + "        | store the decimal value of V" + X + " in memory at address I (hundreds), I+1 (dozens), I+2 (units)";
+      }
+
+      // FX55: store V0 to VX in memory from address I
+      if(nn == 0x55){
+        txt = "LD [I], V" + X + "      | store V0 to V" + X + " in memory starting from address I";
+      }
+
+      // FX65: load V0 to VX from memory at address I
+      if(nn == 0x65){
+        txt = "LD V" + X + ", [I]      | load V0 to V" + X + " from memory starting from address I";
+      }
+    }
+    
+    
+    
+    
+    p.innerHTML += (1e3 + (512 + +i).toString(16)).slice(-4) + " | " + (1e3 + opcode.toString(16)).slice(-4) + "  | " + txt + "\n";
+  }
+}
+</script>
