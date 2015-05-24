@@ -1,12 +1,10 @@
-<input onchange="p.innerHTML=p.innerHTML.substr(0,41);with(new FileReader)readAsArrayBuffer(files[0]),onload=function(){show(result)}"type=file>
+<input onchange="with(f=new FileReader)readAsArrayBuffer(files[0]),onload=s"type=file>
 <pre id=p></pre>
 <script>
-show = function(r){
-  p.innerHTML = '\n\
-@    | hex   | opcode          | description \n\
--------------------------------------------------------\n'
-  pc = 512;
-  u = new Uint8Array(r);
+
+s = function(){
+  u = new Uint8Array(f.result);
+  p.innerHTML = '\n@    | hex   | opcode          | description \n-------------------------------------------------------\n';
   for(i = 0; i < u.length; i += 2){
   
     txt = "?               | ?";
