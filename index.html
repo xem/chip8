@@ -116,143 +116,371 @@
       var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
     </script>
     <script type="demo">
-      // THIS IS WHERE YOUR DEMO GOES
-      
-      
-      
-      /** Temp **/
-      
-      
-      l = function(a){console.log(a)};
-      z = function(a){eval(a)};
-      
-      /** File input **/
-      document.write("<center><input onchange='with(new FileReader)readAsArrayBuffer(files[0]),onload=()=>l(new Uint8Array(result))'type=file>");
-    
-    
-    
-    
-    
-    
-      
-      
-      /*************************/
-      /** JS1k Chip8 emulator **/
-      /*************************/
-      
-      /** Initializations **/
-      
-      // a: canvas
-      // b: body
-      // c: context2d
 
-      // d: program counter
-      d = 512;
+// THIS IS WHERE YOUR DEMO GOES
       
-      // e: stack pointer
-      e = 0;
       
-      // f:
       
-      // g: 
-      
-      // h:
-      
-      // i: address register (set to 0 after init)
-      
-      // j: 
-      
-      // k: keys
-      // The keys 0, 7, 8, 9, 4, 5, 6, 1, 2, 3 and QWERTY are used as input.
-      // their keycode are respectively: 96, 103, 104, 105, 100, 101, 102, 97, 98, 99, 81, 87, 69, 82, 84, 89,
-      // or 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41 (modulo 48)
-      k = [];
-      
-      // l: 
-      
-      // m: memory (4096 * 1byte)
-      m = [];
-      
-      // Memory starts with the sprites of the hex characters 0-9 A-F (8 * 5px)
-      // 0xF0, 0x90, 0x90, 0x90, 0xF0, 0x20, 0x60, 0x20, 0x20, 0x70,
-      // 0xF0, 0x10, 0xF0, 0x80, 0xF0, 0xF0, 0x10, 0xF0, 0x10, 0xF0,
-      // 0x90, 0x90, 0xF0, 0x10, 0x10, 0xF0, 0x80, 0xF0, 0x10, 0xF0,
-      // 0xF0, 0x80, 0xF0, 0x90, 0xF0, 0xF0, 0x10, 0x20, 0x40, 0x40,
-      // 0xF0, 0x90, 0xF0, 0x90, 0xF0, 0xF0, 0x90, 0xF0, 0x10, 0xF0,
-      // 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0,
-      // 0xF0, 0x80, 0x80, 0x80, 0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0,
-      // 0xF0, 0x80, 0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80
-      for(i = 80; i--; ){
-        m[i] = "0x" + "F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[i] << 4;
+/** Temp **/
+
+l = function(a){console.log(a)};
+z = function(a){eval(a)};
+
+
+/*************************/
+/** JS1k Chip8 emulator **/
+/*************************/
+
+/** HTML **/
+
+document.write("<center><input onchange='with(f=new FileReader)readAsArrayBuffer(files[0]),onload=s'type=file>");
+
+/** Initializations **/
+
+// a: canvas
+
+// b: body
+
+// c: context2d
+
+// d: program counter
+d = 512;
+
+// e: stack pointer
+e = 0;
+
+// f: FileReader
+
+// g: loop function
+
+// h: temp var
+
+// i: I, address register (set to 0 after init)
+
+// j: opcode
+
+// k: keys
+// The keys 0, 7, 8, 9, 4, 5, 6, 1, 2, 3 and QWERTY are used as input.
+// their keycode are respectively: 96, 103, 104, 105, 100, 101, 102, 97, 98, 99, 81, 87, 69, 82, 84, 89,
+// or 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41 (modulo 48)
+k = [];
+
+// l: current opcode prefix
+
+// m: memory (4096 * 1byte)
+m = [];
+
+// Memory starts with the sprites of the hex characters 0-9 A-F (8 * 5px)
+// 0xF0, 0x90, 0x90, 0x90, 0xF0, 0x20, 0x60, 0x20, 0x20, 0x70,
+// 0xF0, 0x10, 0xF0, 0x80, 0xF0, 0xF0, 0x10, 0xF0, 0x10, 0xF0,
+// 0x90, 0x90, 0xF0, 0x10, 0x10, 0xF0, 0x80, 0xF0, 0x10, 0xF0,
+// 0xF0, 0x80, 0xF0, 0x90, 0xF0, 0xF0, 0x10, 0x20, 0x40, 0x40,
+// 0xF0, 0x90, 0xF0, 0x90, 0xF0, 0xF0, 0x90, 0xF0, 0x10, 0xF0,
+// 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0,
+// 0xF0, 0x80, 0x80, 0x80, 0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0,
+// 0xF0, 0x80, 0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80
+for(i = 80; i--; ){
+	m[i] = "0x" + "F999F26227F1F8FF1F1F99F11F8F1FF8F9FF1244F9F9FF9F1FF9F99E9E9EF888FE999EF8F8FF8F88"[i] << 4;
+}
+
+// Idea: do that when we load the ROM in memory
+
+// n: N (in the current opcode)
+
+// o: sound oscillator
+
+// p: audio context
+
+// as in:
+// with(o=(p=new AudioContext).createOscillator())connect(p.destination),start(0); o.stop()
+// or:
+// with(o=(A=new AudioContext).createOscillator()){connect(A.destination);start(0);s=stop||noteOff;setTimeout('o.stop(0)',500)}
+// or, without var:
+// new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123)).play()
+// See which one packs better.
+
+// q: NN (in the current opcode)
+
+// r: NNN (in the current opcode)
+
+// s: stack
+s = [];
+
+// t: timer
+t =
+
+// u: sound timer
+u = 0;
+
+// v: registers ("V0" to "V15")
+v = [];
+
+// w: value of VY (during execution)
+
+// x: X (in the current opcode)
+
+// y: file input
+
+// z: eval
+
+
+
+/** Event listeners **/
+
+// On keydown, c.type = "keydown", and c.type[5] is truthy ("w").
+// On keyup, c.type = "keyup", and c.type[5] is falsy (undefined).
+// We use that to update k (the keys state array).
+// Idea: es6
+onkeydown = onkeyup = function(c){
+	k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
+}
+
+
+
+/** Loop **/
+
+g = function(){
+	
+	// Copy ROM content in memory
+	// Idea: place it in the <input onchange=...>
+	for(h = 3584; h--; ){
+		m[h + 512] = u[h];
+	}
+	
+	// Launch loop
+	setInterval(function(c){
+		
+		// If a timer is set, decrease it
+		w && w--;
+		
+		
+		
+		
+		/*sound_timer && sound_timer--;
+
+    // Start sound if sound timer > 0
+    if(audio && sound_timer && !oscillator){
+
+      // New oscillator
+      oscillator = audio.createOscillator();
+
+      // Cross-browser start/stop
+      if(!oscillator.start){
+        oscillator.noteOn = oscillator.start;
       }
-      
-      // n:
-      
-      // o: sound oscillator
-      
-      // p: audio context
-      
-      // as in:
-      // with(o=(p=new AudioContext).createOscillator())connect(p.destination),start(0); o.stop()
-      // or:
-      // with(o=(A=new AudioContext).createOscillator()){connect(A.destination);start(0);s=stop||noteOff;setTimeout('o.stop(0)',500)}
-      // or, without var:
-      // new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123)).play()
-      // See which one packs better.
-      
-      // q:
-      
-      // r: registers
-      r = [];
-      
-      // s: stack
-      s = [];
-      
-      // t: timer
-      t =
-      
-      // u: sound timer
-      u = 0;
-      
-      // v:
-      
-      // w:
-      
-      // x:
-      
-      // y: file input
-      
-      // z: eval
-      
-      
-      
-      /** Event listeners **/
-      
-      // On keydown, c.type = "keydown", and c.type[5] is truthy ("w").
-      // On keyup, c.type = "keyup", and c.type[5] is falsy (undefined).
-      // We use that to update k (the keys state array).
-      onkeydown = onkeyup = c => k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
-      
-      setInterval("l(k)", 1000);
-      
-      
-      // Tests
-      
-      l(m);
-      c.fillRect(4,8,10,20);
-      a.style.border = "2px solid";
-      a.style.margin = "1% auto";
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      if(!oscillator.stop){
+        oscillator.noteOff = oscillator.stop;
+      }
+
+      // Start sound
+      oscillator.connect(audio.destination);
+      oscillator.type = 3;
+      oscillator.start(0);
+    }
+
+    // Stop sound if sound timer == 0
+    if(audio && !sound_timer && oscillator){
+      oscillator.stop(0);
+      oscillator = 0;
+    }*/
+		
+		
+		
+		
+		
+		
+		
+
+		// Execute instructions 9 by 9 (to avoid flickering)
+		// Todo: verify if it's stil useful
+		for(F = 9; F--; ){
+
+			// Read opcode
+			// idea: don't assign it to a var, use the expression instead
+			j = n[d] << 8 | n[d + 1];
+			
+			// Read oopcode's prefix (bits 13-16)
+			// idea: l = (j = n[d] << 8 | n[d + 1]) >> 12;
+			// idea: don't assign it to a var, use the expression instead
+			l = j >> 12;
+			
+			// Read NNN (bits 0-12). Idea: use opcode - prefix << 12.
+			r = j & 0xFFF;
+			
+			// Read NN (bits 0-8)
+			q = j & 0xFF;
+			
+			// Read N (bits 0-4)
+			n = j & 0xF;
+			
+			// Read X (bits 9-12)
+			x = j >> 8 & 0xF;
+			
+			// Read the value of the register VX (= v[X])
+			// idea: z = v[x = j >> 8 & 0xF];
+			// idea: use v[x] everyvhere
+			z = v[x];
+			
+			// Read the value of the register VY (= v[bits 5-8]) 
+			w = v[j >> 4 & 15];
+
+			// Now, eval the opcode using this array of functions converted into strings, and matching to the significant fields of the current opcode
+			z(
+				[
+
+					// 00E0: clear screen, 00EE: return from subprogram
+					// (use the truthiness of N to switch between the two operations)
+					"if(n)d=s.pop();else a.width=a.width",
+					
+					// 1NNN: jump to NNN
+					"d=r-2",
+					
+					// 2NNN: call subprogram at NNN
+					"s.push(d),d=r-2",
+					
+					// 3XNN: ignore next opcode if VX == NN
+					"if(v[x]==q)d+=2",
+					
+					// 4XNN: ignore next opcode if VX != NN
+					"if(v[x]!=q)d+=2",
+					
+					// 5XY0: ignore next opcode if VX == VY
+					"if(v[x]==w)d+=2",
+					
+					// 6XNN: set VX to NN
+					"v[x]=q",
+					
+					// 7XNN: add NN to VX
+					"v[x]+=q",
+
+					// 8XYN:
+					[
+
+						// 8XY0: set VX to VY
+						"v[x]=w",
+						
+						// 8XY1: set VX to VX OR VY
+						"v[x]|=w",
+						
+						// 8XY2: set VX to VX AND VY
+						"v[x]&=w",
+						
+						// 8XY3: set VX to VX XOR VY
+						"v[x]^=w",
+						
+						// 8XY4: add VY to VX, put carry in VF
+						"v[15]=+(255<(v[x]+=w))",
+						
+						// 8XY5: substract VY to VX, put NOT borrow in VF
+						"v[15]=+(0<=(v[x]-=w))",
+						
+						// 8XY6: right shift VX, put shifted bit in VF
+						"v[15]=v[x]&1;v[x]/=2",
+						
+						// 8XY7: VX = VY - VX, put NOT borrow in VF
+						"v[15]=+(0<=(v[x]=w-v[x]))"
+						
+						,,,,,,,
+						
+						// 8XYE: left shift VX, put shifted bit in VF
+						"v[15]=v[x]>>7;v[x]*=2"
+
+					// According to N
+					][n],
+
+					// 9XY0: ignore next opcode if VX != VY
+					"if(v[x]!=w)d+=2",
+					
+					// ANNN: set I to NNN
+					"i=r",
+					
+					// BNNN: jump to NNN + V0
+					"d=r+v[0]",
+					
+					// CXNN: set VX to a random number < NN
+					"v[x]=~~(Math.random()*q)",
+					
+					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
+					"todo",
+					//"for(v[15]=0,a=n;a--;)for(B=8;B--;)y=v[x]+B,A=w+a,(n[i+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,v[15]=1))",
+					
+					// EX9E: ignore next opcode if VX is pressed
+					// EXA1: ignore next opcode if VX is not pressed
+					// (use the vanue of NN to switch between the two operations)
+					// idea: use the truthiness of x-9 instead:
+					// if((!q-9&&k[v[x]])||(q-9&&!k[v[x]]))d+=2"
+					"if((158==q&&k[v[x]])||(161==q&&!k[v[x]]))d+=2",
+
+					[
+
+						// fx15: set timer to VX
+						"w=v[x]",
+						
+						// fx29: set I to the character at VX
+						"i=5*v[x]",,
+						
+						// fx18: set sound timer to VX
+						"todo",
+						
+						// fx65: load V0 to VX from @I to @I+X
+						"for(a=x;a--;)v[a]=n[i+a]","v[x]=w",
+						
+						// fx07: load timer value in VX
+						"todo",,
+						
+						// fx55: store V0 to VX in @I to @I+X
+						"for(a=x;a--;)n[i+a]=v[a]",
+						
+						// fx0a: store key pressed in VX
+						// (loop on current opcode until k contains somrthing ("w") somewhere)
+						"~(v[x]=k.indexOf('w'))||(d-=2)",
+						
+						// fx1e: add VX to I (VF = I overflow)
+						"i+=v[x];v[15]=+(4095<i);i&=4095",,
+						
+						// fx33: store VX in base 10 at I (hundreds), I+1 (dozens) and I+2
+						"for(a=3;a--;)n[i+a]=(''+v[x])[a]"
+					
+					// According to f
+					][q % 19 - 2]
+
+				// According to opcode's prefix
+				][l]
+
+			);
+
+			// Next opcode
+			d += 2
+		}
+		C.putImageData(q, 0, 0)
+	}, 16)
+}
+
+
+
+
+
+
+/*setInterval("l(k)", 1000);
+
+
+// Tests
+
+l(m);
+c.fillRect(4,8,10,20);
+a.style.border = "2px solid";
+a.style.margin = "1% auto";*/
+
+
+
+
+
+
+
+
+
+
+
       // END
     </script>
     <script>
