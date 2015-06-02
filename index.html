@@ -123,7 +123,7 @@
       
 /** Temp **/
 
-l = function(a){console.log(a)};
+log = function(a){console.log(a)};
 z = function(a){eval(a)};
 
 
@@ -133,13 +133,13 @@ z = function(a){eval(a)};
 
 /** HTML **/
 
-document.write("<center><input onchange='with(f=new FileReader)readAsArrayBuffer(files[0]),onload=s'type=file>");
+document.write("<center><input onchange='with(f=new FileReader)readAsArrayBuffer(files[0]),onload=g'type=file>");
 
 /** Initializations **/
 
 // a: canvas
 
-// b: body
+// b: body / temp var for DRW
 
 // c: context2d
 
@@ -188,20 +188,13 @@ for(i = 80; i--; ){
 // n: N (in the current opcode)
 
 // o: sound oscillator
+o = 0;
 
 // p: audio context
 
-// as in:
-// with(o=(p=new AudioContext).createOscillator())connect(p.destination),start(0); o.stop()
-// or:
-// with(o=(A=new AudioContext).createOscillator()){connect(A.destination);start(0);s=stop||noteOff;setTimeout('o.stop(0)',500)}
-// or, without var:
-// new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join(123)).play()
-// See which one packs better.
-
 // q: NN (in the current opcode)
 
-// r: NNN (in the current opcode)
+// r: NNN (in the current opcode) / temp var in DRW
 
 // s: stack
 s = [];
@@ -219,10 +212,14 @@ v = [];
 
 // x: X (in the current opcode)
 
-// y: file input
+// y: temp var
 
 // z: eval
 
+// _ : screen pixels (bool array)
+_ = [];
+
+// $: temp var
 
 
 /** Event listeners **/
@@ -235,72 +232,56 @@ onkeydown = onkeyup = function(c){
 	k[[0,7,8,9,4,5,6,1,2,3,33,39,21,34,36,41].indexOf(c.keyCode%48)] = c.type[5];
 }
 
-
-
 /** Loop **/
 
 g = function(){
-	
+
 	// Copy ROM content in memory
 	// Idea: place it in the <input onchange=...>
+	f = new Uint8Array(f.result);
 	for(h = 3584; h--; ){
-		m[h + 512] = u[h];
+		m[h + 512] = f[h];
 	}
 	
 	// Launch loop
 	setInterval(function(c){
 		
 		// If a timer is set, decrease it
-		w && w--;
-		
-		
-		
-		
-		/*sound_timer && sound_timer--;
+		t && t--;
+
+		// If a sound timer is set, decrease it
+		u && u--;
 
     // Start sound if sound timer > 0
-    if(audio && sound_timer && !oscillator){
-
-      // New oscillator
-      oscillator = audio.createOscillator();
-
-      // Cross-browser start/stop
-      if(!oscillator.start){
-        oscillator.noteOn = oscillator.start;
-      }
-      if(!oscillator.stop){
-        oscillator.noteOff = oscillator.stop;
-      }
-
-      // Start sound
-      oscillator.connect(audio.destination);
-      oscillator.type = 3;
-      oscillator.start(0);
+    if(u && !o){
+			with(o=(p=new AudioContext).createOscillator())connect(p.destination),start(0);
     }
-
-    // Stop sound if sound timer == 0
-    if(audio && !sound_timer && oscillator){
-      oscillator.stop(0);
-      oscillator = 0;
-    }*/
 		
+		/*
+		Cross-browser start/stop
+		if(!oscillator.start){
+			oscillator.noteOn = oscillator.start;
+		}
+		if(!oscillator.stop){
+			oscillator.noteOff = oscillator.stop;
+		}
+		*/
 		
+		// Stop sound if sound timer == 0
+    if(!u && o){
+      o.stop(0);
+    }
 		
-		
-		
-		
-		
-
 		// Execute instructions 9 by 9 (to avoid flickering)
 		// Todo: verify if it's stil useful
-		for(F = 9; F--; ){
+		//for(F = 9; F--; ){
 
 			// Read opcode
 			// idea: don't assign it to a var, use the expression instead
-			j = n[d] << 8 | n[d + 1];
+			j = m[d] << 8 | m[d + 1];
 			
 			// Read oopcode's prefix (bits 13-16)
-			// idea: l = (j = n[d] << 8 | n[d + 1]) >> 12;
+			// idea: l = (j = m[d] << 8 | m[d + 1]) >> 12;
 			// idea: don't assign it to a var, use the expression instead
 			l = j >> 12;
 			
@@ -315,11 +296,6 @@ g = function(){
 			
 			// Read X (bits 9-12)
 			x = j >> 8 & 0xF;
-			
-			// Read the value of the register VX (= v[X])
-			// idea: z = v[x = j >> 8 & 0xF];
-			// idea: use v[x] everyvhere
-			z = v[x];
 			
 			// Read the value of the register VY (= v[bits 5-8]) 
 			w = v[j >> 4 & 15];
@@ -401,8 +377,7 @@ g = function(){
 					"v[x]=~~(Math.random()*q)",
 					
 					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
-					"todo",
-					//"for(v[15]=0,a=n;a--;)for(B=8;B--;)y=v[x]+B,A=w+a,(n[i+a]>>7-B&1)&&(63<y&&(y-=63),31<A&&(A-=31),u=4*(64*A+y)+3,q.data[u]?q.data[u]=0:(q.data[u]=255,v[15]=1))",
+					"for(v[15]=0,a=n;a--;)for(b=8;b--;)y=v[x]+b,$=w+a,(m[i+a]>>7-b&1)&&(63<y&&(y-=63),31<$&&($-=31),r=64*$+y,_[r]?(_[r]=0,c.fillStyle='#fff',c.fillRect(y*10,$*10,10,10)):(_[r]=1,v[15]=1,c.fillStyle='#000',c.fillRect(y*10,$*10,10,10)))",
 					
 					// EX9E: ignore next opcode if VX is pressed
 					// EXA1: ignore next opcode if VX is not pressed
@@ -414,22 +389,22 @@ g = function(){
 					[
 
 						// fx15: set timer to VX
-						"w=v[x]",
+						"t=v[x]",
 						
 						// fx29: set I to the character at VX
 						"i=5*v[x]",,
 						
 						// fx18: set sound timer to VX
-						"todo",
+						"u=v[x]",
 						
 						// fx65: load V0 to VX from @I to @I+X
-						"for(a=x;a--;)v[a]=n[i+a]","v[x]=w",
+						"for(a=x;a--;)v[a]=m[i+a]","v[x]=w",
 						
 						// fx07: load timer value in VX
-						"todo",,
+						"v[x]=t",,
 						
 						// fx55: store V0 to VX in @I to @I+X
-						"for(a=x;a--;)n[i+a]=v[a]",
+						"for(a=x;a--;)m[i+a]=v[a]",
 						
 						// fx0a: store key pressed in VX
 						// (loop on current opcode until k contains somrthing ("w") somewhere)
@@ -439,7 +414,7 @@ g = function(){
 						"i+=v[x];v[15]=+(4095<i);i&=4095",,
 						
 						// fx33: store VX in base 10 at I (hundreds), I+1 (dozens) and I+2
-						"for(a=3;a--;)n[i+a]=(''+v[x])[a]"
+						"for(a=3;a--;)m[i+a]=(''+v[x])[a]"
 					
 					// According to f
 					][q % 19 - 2]
@@ -451,8 +426,7 @@ g = function(){
 
 			// Next opcode
 			d += 2
-		}
-		C.putImageData(q, 0, 0)
+		//}
 	}, 16)
 }
 
@@ -466,7 +440,6 @@ g = function(){
 
 // Tests
 
-l(m);
 c.fillRect(4,8,10,20);
 a.style.border = "2px solid";
 a.style.margin = "1% auto";*/
