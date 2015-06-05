@@ -274,13 +274,13 @@ g = function(){
 		// Todo: verify if it's still useful
 		//for(F = 9; F--; ){
 
-			// Read opcode and opcode's prefix (bits 13-16)
-			l = (j = m[d] << 8 | m[d + 1]) >> 12
+			// Read opcode
+			j = m[d] << 8 | m[d + 1];
 			
 			// Read NNN (bits 0-12).
 			// Read NN (bits 0-8)
 			// Read N (bits 0-4)
-			n = (q = (r = j & 0xFFF) & 0xFF) & 0xF;
+			q = (r = j & 0xFFF) & 0xFF;
 			
 			// Read X (bits 9-12)
 			x = r >> 8;
@@ -294,7 +294,7 @@ g = function(){
 
 					// 00E0: clear screen, 00EE: return from subprogram
 					// (use the truthiness of N to switch between the two operations)
-					"n?d=s.pop():a.width=a.width",
+					"q&15?d=s.pop():a.width=a.width",
 					
 					// 1NNN: jump to NNN
 					"d=r-2",
@@ -350,7 +350,7 @@ g = function(){
 						"v[15]=v[x]>>7;v[x]*=2"
 
 					// According to N
-					][n],
+					][q & 15],
 
 					// 9XY0: ignore next opcode if VX != VY
 					"d+=2*(v[x]!=w)",
@@ -365,7 +365,7 @@ g = function(){
 					"v[x]=new Date%q",
 					
 					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
-					"for(v[15]=0,a=n;a--;)for(b=8;b--;)y=v[x]+b,$=w+a,(m[i+a]>>7-b&1)&&(63<y&&(y-=63),31<$&&($-=31),r=64*$+y,_[r]?(_[r]=0,c.fillStyle='#fff',c.fillRect(y*10,$*10,10,10)):(_[r]=1,v[15]=1,c.fillStyle='#000',c.fillRect(y*10,$*10,10,10)))",
+					"for(v[15]=0,a=q&15;a--;)for(b=8;b--;)y=v[x]+b,$=w+a,(m[i+a]>>7-b&1)&&(63<y&&(y-=63),31<$&&($-=31),r=64*$+y,_[r]?(_[r]=0,c.fillStyle='#fff',c.fillRect(y*10,$*10,10,10)):(_[r]=1,v[15]=1,c.fillStyle='#000',c.fillRect(y*10,$*10,10,10)))",
 					
 					// EX9E: ignore next opcode if VX is pressed
 					// EXA1: ignore next opcode if VX is not pressed
@@ -406,7 +406,7 @@ g = function(){
 					][q % 19 - 2]
 
 				// According to opcode's prefix
-				][l]
+				][j >> 12]
 
 			);
 
