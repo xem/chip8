@@ -269,10 +269,6 @@ g = function(){
 		
 		// Stop sound if sound timer == 0
     !u && o && o.stop(0);
-		
-		// Execute instructions 9 by 9 (to avoid flickering)
-		// Todo: verify if it's still useful
-		//for(F = 9; F--; ){
 
 			// Read opcode
 			j = m[d] << 8 | m[d + 1];
@@ -364,8 +360,8 @@ g = function(){
 					// CXNN: set VX to a random number < NN
 					"v[x]=new Date%q",
 					
-					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
-					"for(v[15]=0,a=q&15;a--;)for(b=8;b--;)y=v[x]+b,$=w+a,(m[i+a]>>7-b&1)&&(63<y&&(y-=63),31<$&&($-=31),r=64*$+y,_[r]?(_[r]=0,c.fillStyle='#fff',c.fillRect(y*10,$*10,10,10)):(_[r]=1,v[15]=1,c.fillStyle='#000',c.fillRect(y*10,$*10,10,10)))",
+					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y], XORing old and new pixels, and saving collision by setting VF to 1.
+					"v[15]=0;for(a=q&15;a--;)for(b=8;b--;)y=(v[x]+b+64)%64,$=(w+a+32)%32,r=(_[64*$+y]||0)+(m[i+a]>>7-b)&1,2==r&&(v[15]=1),_[64*$+y]=r%2,c.fillStyle=['#fff','#000'][r],c.fillRect(9*y,9*$,9,9)",
 					
 					// EX9E: ignore next opcode if VX is pressed
 					// EXA1: ignore next opcode if VX is not pressed
@@ -412,7 +408,7 @@ g = function(){
 
 			// Next opcode
 			d += 2
-		//}
+			
 	}, 16)
 }
 
