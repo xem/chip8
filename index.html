@@ -268,37 +268,25 @@ g = function(){
 		*/
 		
 		// Stop sound if sound timer == 0
-    if(!u && o){
-      o.stop(0);
-    }
+    !u && o && o.stop(0);
 		
 		// Execute instructions 9 by 9 (to avoid flickering)
-		// Todo: verify if it's stil useful
+		// Todo: verify if it's still useful
 		//for(F = 9; F--; ){
 
-			// Read opcode
-			// idea: don't assign it to a var, use the expression instead
-			j = m[d] << 8 | m[d + 1];
+			// Read opcode and opcode's prefix (bits 13-16)
+			l = (j = m[d] << 8 | m[d + 1]) >> 12
 			
-			// Read oopcode's prefix (bits 13-16)
-			// idea: l = (j = m[d] << 8 | m[d + 1]) >> 12;
-			// idea: don't assign it to a var, use the expression instead
-			l = j >> 12;
-			
-			// Read NNN (bits 0-12). Idea: use opcode - prefix << 12.
-			r = j & 0xFFF;
-			
+			// Read NNN (bits 0-12).
 			// Read NN (bits 0-8)
-			q = j & 0xFF;
-			
 			// Read N (bits 0-4)
-			n = j & 0xF;
+			n = (q = (r = j & 0xFFF) & 0xFF) & 0xF;
 			
 			// Read X (bits 9-12)
-			x = j >> 8 & 0xF;
+			x = r >> 8;
 			
 			// Read the value of the register VY (= v[bits 5-8]) 
-			w = v[j >> 4 & 15];
+			w = v[q >> 4];
 
 			// Now, eval the opcode using this array of functions converted into strings, and matching to the significant fields of the current opcode
 			z(
@@ -306,7 +294,7 @@ g = function(){
 
 					// 00E0: clear screen, 00EE: return from subprogram
 					// (use the truthiness of N to switch between the two operations)
-					"if(n)d=s.pop();else a.width=a.width",
+					"n?d=s.pop():a.width=a.width",
 					
 					// 1NNN: jump to NNN
 					"d=r-2",
@@ -315,13 +303,13 @@ g = function(){
 					"s.push(d),d=r-2",
 					
 					// 3XNN: ignore next opcode if VX == NN
-					"if(v[x]==q)d+=2",
+					"d+=2*(v[x]==q)",
 					
 					// 4XNN: ignore next opcode if VX != NN
-					"if(v[x]!=q)d+=2",
+					"d+=2*(v[x]!=q)",
 					
 					// 5XY0: ignore next opcode if VX == VY
-					"if(v[x]==w)d+=2",
+					"d+=2*(v[x]==w)",
 					
 					// 6XNN: set VX to NN
 					"v[x]=q",
@@ -365,7 +353,7 @@ g = function(){
 					][n],
 
 					// 9XY0: ignore next opcode if VX != VY
-					"if(v[x]!=w)d+=2",
+					"d+=2*(v[x]!=w)",
 					
 					// ANNN: set I to NNN
 					"i=r",
@@ -374,17 +362,15 @@ g = function(){
 					"d=r+v[0]",
 					
 					// CXNN: set VX to a random number < NN
-					"v[x]=~~(Math.random()*q)",
+					"v[x]=new Date%q",
 					
 					// DXYN: draw the 8*N px sprite stored at address I at coordinates [X:Y]
 					"for(v[15]=0,a=n;a--;)for(b=8;b--;)y=v[x]+b,$=w+a,(m[i+a]>>7-b&1)&&(63<y&&(y-=63),31<$&&($-=31),r=64*$+y,_[r]?(_[r]=0,c.fillStyle='#fff',c.fillRect(y*10,$*10,10,10)):(_[r]=1,v[15]=1,c.fillStyle='#000',c.fillRect(y*10,$*10,10,10)))",
 					
 					// EX9E: ignore next opcode if VX is pressed
 					// EXA1: ignore next opcode if VX is not pressed
-					// (use the vanue of NN to switch between the two operations)
-					// idea: use the truthiness of x-9 instead:
-					// if((!q-9&&k[v[x]])||(q-9&&!k[v[x]]))d+=2"
-					"if((158==q&&k[v[x]])||(161==q&&!k[v[x]]))d+=2",
+					// (use the truthiness of y - 9 to switch between the two operations)
+					"d+=2*(!q-9&&k[v[x]]||q-9&&!k[v[x]])",
 
 					[
 
@@ -407,8 +393,8 @@ g = function(){
 						"for(a=x;a--;)m[i+a]=v[a]",
 						
 						// fx0a: store key pressed in VX
-						// (loop on current opcode until k contains somrthing ("w") somewhere)
-						"~(v[x]=k.indexOf('w'))||(d-=2)",
+						// (loop on current opcode (d-=2) until k contains "w" somewhere)
+						"d+=2*!~(v[x]=k.indexOf('w'))",
 						
 						// fx1e: add VX to I (VF = I overflow)
 						"i+=v[x];v[15]=+(4095<i);i&=4095",,
@@ -429,27 +415,6 @@ g = function(){
 		//}
 	}, 16)
 }
-
-
-
-
-
-
-/*setInterval("l(k)", 1000);
-
-
-// Tests
-
-c.fillRect(4,8,10,20);
-a.style.border = "2px solid";
-a.style.margin = "1% auto";*/
-
-
-
-
-
-
-
 
 
 
