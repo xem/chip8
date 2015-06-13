@@ -71,7 +71,8 @@ with(new XMLHttpRequest)
 
 					"w=z",
 					"k=5*z",,,
-					"for(a=b;a--;)V[a]=n[k+a]","V[b]=w",,
+					"for(a=b;a--;)V[a]=n[k+a]",
+					"V[b]=w",,
 					"for(a=b;a--;)n[k+a]=V[a]",
 					"~(V[b]=s.indexOf('w'))||(h-=2)",
 					"k+=z;V[15]=+(4095<k);k&=4095",,

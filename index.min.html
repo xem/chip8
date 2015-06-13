@@ -135,236 +135,8 @@ setInterval(function(){
 /** entry code starts here **/
 /****************************/
 
-/** Initialization **/
+E=1;for(_='>>Wl&V,3Uv[15]=TT+(N"][M,["Lor(K();J=(I4095HIVH)G","FdG-2Ff[2*honkey&&f1="0x"+=yv[x]=)Ff9--;",,"d+=2V15,c.filla.width[h]V255FN0<Ib[64*w+D]	.indexOf(f8f=[];m[i+h];h)fKh=()*(if(E){bkmsvi=o=t=u=0;d=512;down=up=A=>{k[[0,7,8,9,4,5,6,1,2UU3U9,21U4U6,41]A.keyCode%48)]=!!A.type[5]};f=promptJ1E3m"99f26227911f9f244ff9e9e9ef888fe999e8f88"<<4,m[h+d]]++1]<<0;E--}ttuuif(u!o)with(oIp=new AudioContext).createOscillatK))connect(p.destination),startJ!uoo.stopJl=m[d]<<8|m[d+1];xGW8;y=v[W4];eval(["?d=s.pop():=;b=[]Fs.push(d),=!=F+="LyF|F&F^FN255<(+))-)T&1;/=2-))",,,,,,,"TW7;*=2M],"!i=VHFdG+v[0]Fnew Date%FT0;fKC=8;C)DI+C+640)%64,wIy+h+320)%32,r=!!	+(W7-C)&1,r==2(T1),	=r%2Style=[\'#fff\',\'#000\'][r]Rect(9*D,9*w,9,9)"Lk[]!k[])MV14]Lt=Fi=5*u=Fxv=Ftx=vF*!~(k!0)i+=;NH<i);i&=H3I\'\'+)M%19-2]][lW12]);';g=/[-F-NT-W]/.exec(_);)with(_.split(g))_=join(shift());setInterval(_,16)
 
-if(z){
-
-	// a: canvas
-	// b: body (unused), replaced by screen pixels bitmap (64x32 array)
-	// c: context2d
-	// d: "PC", the program counter (initialized at 0x200)
-	// e: eval
-	// f: ROM content (hex)
-	// g: functions parameter
-	// h: iterator
-	// i: "I", the address register (initialized at 0)
-	// j: other iterator
-	// k: keys
-	// l: opcode
-	// m: memory (array, 4096 * 1byte)
-	// n:
-	// o: sound oscillator
-	// p: audio context
-	// q: temp var
-	// r: temp var
-	// s: stack
-	// t: timer
-	// u: sound timer
-	// v: 16-bit registers ("V0" to "V15")
-	// w: temp var
-	// x: X (in the current opcode)
-	// y: VY (in the current opcode)
-	// z: emulator initialization flag
-	
-	b = [];
-	k = [];
-	m = [];
-	s = [];
-	v = [];
-	i = o = t = u = 0;
-	d = 0x200;
-
-	// On keydown, g.type = "keydown", and !!g.type[5] is true.
-	// On keyup, g.type = "keyup", and !!g.type[5] is false.
-	// The keys numpad 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, and QWERTY are used as input.
-	// their keycode are respectively: 96, 103, 104, 105, 100, 101, 102, 97, 98, 99, 81, 87, 69, 82, 84, 89,
-	// or 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41 (modulo 48)
-	onkeydown = onkeyup = function(g){
-		k[[0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41].indexOf(g.keyCode % 48)] = !!g.type[5];
-	}
-
-	// Copy presetted chars and ROM content in memory.
-	// Memory starts with the sprites of the hex characters 0-9 A-F (8 * 5px)
-	// 0xF0, 0x90, 0x90, 0x90, 0xF0, 0x20, 0x60, 0x20, 0x20, 0x70,
-	// 0xF0, 0x10, 0xF0, 0x80, 0xF0, 0xF0, 0x10, 0xF0, 0x10, 0xF0,
-	// 0x90, 0x90, 0xF0, 0x10, 0x10, 0xF0, 0x80, 0xF0, 0x10, 0xF0,
-	// 0xF0, 0x80, 0xF0, 0x90, 0xF0, 0xF0, 0x10, 0x20, 0x40, 0x40,
-	// 0xF0, 0x90, 0xF0, 0x90, 0xF0, 0xF0, 0x90, 0xF0, 0x10, 0xF0,
-	// 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0,
-	// 0xF0, 0x80, 0x80, 0x80, 0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0,
-	// 0xF0, 0x80, 0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80
-
-	//f = prompt();
-	f = prompt("rom","00e0a2486000611e6200d202d21272083240120a6000613e6202a24ad02ed12e720ed02ed12ea258600b6108d01f700aa267d01f700aa276d01f7003a285d01f700aa294d01f1246ffffc0c0c0c0c0c0c0c0c0c0c0c0c0c0ff80808080808080808080808080ff81818181818181ff81818181818181808080808080808080808080808080ff818181818181ff80808080808080ff818181818181ff818181818181ffff");
-
-	for(h = 1000; h--; ){
-		m[h] = "0x" + "f999f26227f1f8ff1f1f99f11f8f1ff8f9ff1244f9f9ff9f1ff9f99e9e9ef888fe999ef8f8ff8f88"[h] << 4;
-		m[h + d] = "0x" + f[h*2] + f[h*2+1] << 0;
-	}
-	
-	z--;
-}
-
-/** Game loop **/
-
-// If a timer is set, decrease it
-t && t--;
-
-// If a sound timer is set, decrease it
-u && u--;
-
-// Start sound if sound timer > 0
-if(u && !o){
-	with(o=(p=new AudioContext).createOscillator())connect(p.destination),start();
-}
-
-// Stop sound if sound timer == 0
-!u && o && o.stop();
-
-// Read opcode (2 bytes)
-l = m[d] << 8 | m[d + 1];
-
-//log("l=0x"+l.toString(16));
-
-// Read X (bits 9-12)
-x = (l & 0xfff) >> 8;
-
-//log("x="+x);
-
-// Read the value of the register VY (= v[bits 5-8]) 
-y = v[(l & 0xff) >> 4];
-
-// Now, eval the opcode using this array of functions converted into strings, and matching to the significant fields of the current opcode
-evil(
-	[
-		// 00E0: clear screen, 00EE: return from subprogram
-		// (use the truthiness of N to switch between the two operations)
-		"l&15?d=s.pop():a.width=a.width;b=[]",
-		
-		// 1NNN: jump to NNN
-		"d=(l&4095)-2",
-		
-		// 2NNN: call subprogram at NNN
-		"s.push(d),d=(l&4095)-2",
-		
-		// 3XNN: ignore next opcode if VX == NN
-		"d+=2*(v[x]==(l&255))",
-		
-		// 4XNN: ignore next opcode if VX != NN
-		"d+=2*(v[x]!=(l&255))",
-		
-		// 5XY0: ignore next opcode if VX == VY
-		"d+=2*(v[x]==y)",
-		
-		// 6XNN: set VX to NN
-		"v[x]=l&255",
-		
-		// 7XNN: add NN to VX
-		"v[x]+=l&255",
-
-		// 8XYN:
-		[
-
-			// 8XY0: set VX to VY
-			"v[x]=y",
-			
-			// 8XY1: set VX to VX OR VY
-			"v[x]|=y",
-			
-			// 8XY2: set VX to VX AND VY
-			"v[x]&=y",
-			
-			// 8XY3: set VX to VX XOR VY
-			"v[x]^=y",
-			
-			// 8XY4: add VY to VX, put carry in VF
-			"v[15]=+(255<(v[x]+=y))",
-			
-			// 8XY5: substract VY to VX, put NOT borrow in VF
-			"v[15]=+(0<=(v[x]-=y))",
-			
-			// 8XY6: right shift VX, put shifted bit in VF
-			"v[15]=v[x]&1;v[x]/=2",
-			
-			// 8XY7: VX = VY - VX, put NOT borrow in VF
-			"v[15]=+(0<=(v[x]=y-v[x]))"
-			
-			,,,,,,,
-			
-			// 8XYE: left shift VX, put shifted bit in VF
-			"v[15]=v[x]>>7;v[x]*=2"
-
-		// According to N
-		][l & 15],
-
-		// 9XY0: ignore next opcode if VX != VY
-		"d+=2*(v[x]!=y)",
-		
-		// ANNN: set I to NNN
-		"i=l&4095",
-		
-		// BNNN: jump to NNN + V0
-		"d=(l&4095)+v[0]",
-		
-		// CXNN: set VX to a random number < NN
-		"v[x]=new Date%(l&255)",
-		
-		// DXYN: draw the 8*N px sprite stored at address I at coordinates [VX:VY], XORing old and new pixels, and saving collision by setting VF to 1.
-		"v[15]=0;for(h=l&15;h--;)for(j=8;j--;)q=(v[x]+j+640)%64,w=(y+h+320)%32,r=!!b[64*w+q]+(m[i+h]>>7-j)&1,r==2&&(v[15]=1),b[64*w+q]=r%2,c.fillStyle=['#fff','#000'][r],c.fillRect(9*q,9*w,9,9)",
-		
-		// EX9E: ignore next opcode if VX is pressed
-		// EXA1: ignore next opcode if VX is not pressed
-		// (use the truthiness of N - 1 to switch between the two operations)
-		[
-			"d+=2*(k[v[x]])",
-			"d+=2*(!k[v[x]])"
-		][l & 15 - 1],
-
-		[
-
-			// fx15: set timer to VX
-			"t=v[x]",
-			
-			// fx29: set I to the character at VX
-			"i=5*v[x]",,
-			
-			// fx18: set sound timer to VX
-			"u=v[x]",
-			
-			// fx65: load V0 to VX from @I to @I+X
-			"for(h=x;h--;)v[h]=m[i+h]",
-			
-			// fx07: load timer value in VX
-			"v[x]=t",,
-			
-			// fx55: store V0 to VX in @I to @I+X
-			"for(h=x;h--;)m[i+h]=v[h]",
-			
-			// fx0a: store key pressed in VX
-			// (loop on current opcode (d-=2) until k contains "true" somewhere, then save its index in VX)
-			"d+=2*!~(v[x]=k.indexOf(!0))",
-			
-			// fx1e: add VX to I (VF = I overflow)
-			"i+=v[x];v[15]=+(4095<i);i&=4095",,
-			
-			// fx33: store VX in base 10 at I (hundreds), I+1 (dozens) and I+2
-			"for(h=3;h--;)m[i+h]=(''+v[x])[h]"
-		
-		// According to NN
-		][(l & 0xff) % 19 - 2]
-
-	// According to opcode's prefix
-	][l >> 12]
-);
-
-// Next opcode
-d += 2;
-//log("d="+d);
-//log("i="+i);
-//log(v);
-//log("==============================");
-
-	
 /**************************/
 /** Entry code ends here **/
 /**************************/
