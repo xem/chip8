@@ -166,7 +166,6 @@ if(z){
 	// y: VY (in the current opcode)
 	// z: emulator initialization flag
 	
-	b = [];
 	k = [];
 	m = [];
 	s = [];
@@ -224,7 +223,7 @@ if(u && !o){
 // Read opcode (2 bytes)
 l = m[d] << 8 | m[d + 1];
 
-//log("l=0x"+l.toString(16));
+log("l=0x"+l.toString(16));
 
 // Read X (bits 9-12)
 x = (l & 0xfff) >> 8;
@@ -239,7 +238,7 @@ evil(
 	[
 		// 00E0: clear screen, 00EE: return from subprogram
 		// (use the truthiness of N to switch between the two operations)
-		"l&15?d=s.pop():a.width=a.width;b=[]",
+		"l&15?d=s.pop():(a.width=a.width,b=[])",
 		
 		// 1NNN: jump to NNN
 		"d=(l&4095)-2",
@@ -314,11 +313,11 @@ evil(
 		
 		// EX9E: ignore next opcode if VX is pressed
 		// EXA1: ignore next opcode if VX is not pressed
-		// (use the truthiness of N - 1 to switch between the two operations)
+		// (use the last bit of the opcode to switch between the two operations)
 		[
-			"d+=2*(k[v[x]])",
+			"d+=2*(!!k[v[x]])",
 			"d+=2*(!k[v[x]])"
-		][l & 15 - 1],
+		][l & 1],
 
 		[
 
@@ -370,6 +369,7 @@ d += 2;
 /**************************/
 
 }, 16);
+//}, 100);
 
 
       // END
