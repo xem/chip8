@@ -1,0 +1,83 @@
+<input onchange="with(f=new FileReader)readAsArrayBuffer(files[0]),onload=s"type=file>
+<script>
+s = function() {
+  u = new Uint8Array(f.result);
+  for(i = 0; i < u.length; i += 2){
+  
+    o = u[i] << 8 | u[i+1];
+    p = o >> 12;
+    l = ("00" + (o & 0xFFF).toString(16)).slice(-3);
+    q = o & 0xFF;
+    m = (0 + q.toString(16)).slice(-2);
+    n = o & 0xF;
+    N = n.toString(16);
+    X = (o >> 8 & 0xF).toString(16);
+    Y = (o >> 4 & 0xF).toString(16);
+
+    a.innerHTML += (1e3 + (+i+512).toString(16)).slice(-4) + " | " + (1e3 + o.toString(16)).slice(-4) + "  | "
+    
+    + 
+
+    ([
+
+      (n ? "RET		| return" : "CLS		| clear screen"), // 0
+      "JP 0x" + l + "		| jump to 0x" + l, // 1
+      "CALL 0x" + l + "	| call subprogram at 0x" + l, // 2
+      "SE V" + X + ", 0x" + m + "	| skip next if V" + X + " == 0x" + m, // 3
+      "SNE V" + X + ", 0x" + m + "	| skip next if V" + X + " != 0x" + m, // 4
+      "SE V" + X + ", V" + Y + "	| skip next if V" + X + " == V" + Y, // 5
+      "LD V" + X + ", 0x" + m + "	| set V" + X + " to 0x" + m, // 6
+      "ADD V" + X + ", 0x" + m + "	| add 0x" + m + " to V" + X, // 7
+
+      [
+
+        "LD V" + X + ", V" + Y + "	| set V" + X + " to V" + Y, // 8xx0
+        "OR V" + X + ", V" + Y + "	| set V" + X + " to V" + X + " OR V" + Y, // 8xx1
+        "AND V" + X + ", V" + Y + "	| set V" + X + " to V" + X + " AND V" + Y, // 8xx2
+        "XOR V" + X + ", V" + Y + "	| set V" + X + " to V" + X + " XOR V" + Y, // 8xx3
+        "ADD V" + X + ", V" + Y + "	| add V" + Y + " to V" + X + " (VF = carry)", // 8xx4
+        "SUB V" + X + ", V" + Y + "	| substract V" + Y + " to V" + X + " (VF = NOT borrow)", // 8xx5
+        "SHR V" + X + "		| right shift V" + X + " (VF = shifted bit)", // 8xx6
+        "SUBN V" + X + ", V" + Y + "	| substract V" + X + " to V" + Y + " (VF = NOT borrow)" // 8xx7
+        ,,,,,,
+        "SHL V" + X + "		| left shift V" + X + " (VF = shifted bit)" // 8xxe
+
+      ][n],
+
+      "SNE V" + X + ", V" + Y + "	| skip next if V" + X + " != V" + Y, // 9
+      "LD I, 0x" + l + "	| set I to 0x" + l, // a
+      "JP V0, 0x" + l + "	| jump to 0x" + l + " + V0", // b
+      "RND V" + X + ", 0x" + m + "	| set V" + X + " to a random number < 0x" + m, // c
+      "DRW V" + X + ", V" + Y + ", 0x" + N + "	| draw the 8*" + N + "px sprite at @I at [" + X + ":" + Y + "]", // d
+      (q - 158 ? "SKNP V" + X + "		| skip next if the key in V" + X + " is not pressed" : "SKP V" + X + "		| skip next if the key in V" + X + " is pressed"), // e
+
+      [
+
+        "LD DT, V" + X + "	| set timer to V" + X, // 0 => fx15
+        "LD F, V" + X + "		| set I to the character at V" + X, // 1 => fx29
+        ,
+        "LD ST, V" + X + "	| set sound timer to V" + X, // 3 => fx18
+        "LD V" + X + ", [I]	| load V0 to V" + X + " from @I to @I+" + X, // 4 => fx65
+        "LD V" + X + ", DT	| load timer value in V" + X, // 5 => fx07
+        ,
+        "LD [I], V" + X + "	| store V0 to V" + X + " in @I to @I+" + X, // 7 => fx55
+        "LD V" + X + ", K	| store key pressed in V" + X, // 8 => fx0a
+        "ADD I, V" + X + "	| add V" + X + " to I (VF = I overflow)", // 9 => fx1e
+        ,
+        "LD B, V" + X + "		| store V" + X + " in base 10 at I (hundreds), I+1 (dozens) and I+2" // b => fx33
+
+      ][q%19-2]
+
+    ][p]
+    
+    ||
+    
+    "?		| ?")
+
+
+    +
+    
+    "\n";
+  }
+}
+</script><pre id=a>

@@ -1,0 +1,373 @@
+<!doctype html>
+<html>
+  <!-- note: your demo in this shim runs in an iframe with this content: https://gist.github.com/qfox/3cccc4f36c8319e09bb7 -->
+  <!--
+  (c) js1k.com 2015
+  Note: submissions belong to their respectful owner, do not copy without their consent
+  -->
+  <head>
+    <meta charset="utf-8">
+    <title>JS1k 2015 - NNNN - TITLE</title>
+    <meta name="author" content="YOU">
+    <link rel="icon" type="image/png" href="http://js1k.com/favicon.png">
+    <link rel="canonical" href="http://js1k.com/2015-hypetrain/demo/NNNN">
+    <link rel="shortlink" href="http://js1k.com/NNNN">
+    <script>
+      // GA
+    </script>
+    <style>
+      /* http://qfox.nl/notes/333 */
+      body,html,iframe{margin:0;padding:0;border:0;width:100%;height:100%}
+      iframe{position:absolute;top:0;left:0;padding-top:50px;box-sizing:border-box}
+      header{position:relative;z-index:1;height:47px;padding-top:2px;border-bottom:1px solid #000;box-shadow:0 -10px 25px #ccc inset;background-color:#eee}
+      aside,div,h1,p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:16px;font-weight:inherit;line-height:22px;padding:0;margin:0;cursor:default}
+      aside,h1{display:inline}
+      a{color:#000;text-decoration:none;border-bottom:1px dashed #000}
+      a:hover{border-bottom:1px solid red}
+      a[href="0"]{text-decoration:line-through;pointer-events:none;border-bottom:0;color:#ccc}
+      .button{float:left;width:40px;height:40px;line-height:40px;text-align:center;padding:0;margin:2px 0 0 10px;border:1px solid #888;border-color:#ddd #888 #888 #ddd;font-family:sans-serif;font-size:30px;font-weight:700;cursor:pointer}
+      .button:hover{color:red;border-bottom-color:#888}
+      .r{margin-right:10px}
+      time{display:none}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>
+          <a href="http://js1k.com/">JS1k</a>
+          <a href="http://js1k.com/2015-hypetrain">2015</a>
+          <strong></strong> demo
+          &mdash;
+          "TITLE" by YOU
+        </h1>
+        <p>
+          <em>
+            FIRST PART OF YOUR DESC GOES HERE
+          </em>
+        </p>
+        <aside>
+          &mdash;
+          1024 bytes
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/details/NNNN">demo details</a>
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/demos">list of demos</a>
+          &mdash;
+          <a href="http://js1k.com/1955" title="short link for your mobile devices" rel="nofollow">js1k.com/NNNN</a>
+          <time datetime="NOW" pubdate>NOW</time>
+        </aside>
+      </div>
+
+      <a href=".html" class="button p">&Larr;</a>
+      <a href=".html" class="button n">&Rarr;</a>
+    </header>
+
+    <script type="shim">
+      // SHIM (will be ran in the context of the iframe...)
+
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      iwin.AudioContext = iwin.AudioContext || iwin.webkitAudioContext; // ios8 unmutes audio only during the first user triggered event with sound
+      iwin.requestAnimationFrame = iwin.requestAnimationFrame || iwin.mozRequestAnimationFrame || iwin.webkitRequestAnimationFrame || iwin.msRequestAnimationFrame || function(f){ iwin.setTimeout(f, 1000/30); };
+      canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+      a = canvas;
+      b = idoc.body;
+
+      if (webgl) iwin.c = canvas.getContext('2d');
+      else iwin.g = (function () {
+        iwin.onorientationchange = iwin.onresize = null;
+        try {
+          var o = { antialias: true, stencil: true };
+          var gl = canvas.getContext('webgl', o) || canvas.getContext('experimental-webgl', o);
+
+          // keep in scope, must not be garbage collected
+          iwin.__glExts =
+            [ 'OES_texture_float', 'OES_texture_float_linear', 'OES_standard_derivatives',
+              'EXT_texture_filter_anisotropic', 'MOZ_EXT_texture_filter_anisotropic', 'WEBKIT_EXT_texture_filter_anisotropic',
+              'WEBGL_compressed_texture_s3tc', 'MOZ_WEBGL_compressed_texture_s3tc', 'WEBKIT_WEBGL_compressed_texture_s3tc'
+            ].map(function(ext) {
+                return gl.getExtension(ext);
+              });
+        } catch (e) {
+          idoc.body.innerHTML = 'WebGL not supported.';
+          iwin.a=iwin.b=iwin.c=iwin.d=null;
+          throw e;
+        }
+
+        return gl;
+      })();
+    </script>
+    <script>
+      // submission form configurables:
+
+      // enable canvas shim at all? (2d/3d). other settings are ignored if this is false.
+      var TOKEN_CANVAS_SHIM = true;
+      // true enables webgl shim (exposes `g`), false enables canvas shim (exposes `c`)
+      var TOKEN_WEBGL = false;
+      // px, 0 means always 100%
+      var TOKEN_MAX_WIDTH = 640;
+      // px, 0 means always 100%
+      var TOKEN_MAX_HEIGHT = 320;
+      // only if width<100%
+      var TOKEN_CENTER_CANVAS = true;
+      // "press" reload button on orientation change?
+      var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
+    </script>
+    <script type="demo">
+
+// THIS IS WHERE YOUR DEMO GOES
+      
+      
+      
+/** Temp **/
+z = 0;
+log = function(a){console.log(a)};
+evil = function(a){log("code= " + a); eval(a)};
+
+
+
+//A=0;
+
+S=
+
+//if(z == 0)A++;
+//if(A==100){clearInterval(S)}
+
+/****************************/
+/**  JS1k Chip8 emulator   **/
+/** entry code starts here **/
+/****************************/
+
+// Add a file input
+// When a ROM file is uploaded, copy hardcoded chars and the ROM content in memory.
+// The memory starts with the sprites of the hex characters 0-9, A-F (8 * 5px). i.e:
+// 0xF0, 0x90, 0x90, 0x90, 0xF0, 0x20, 0x60, 0x20, 0x20, 0x70,
+// 0xF0, 0x10, 0xF0, 0x80, 0xF0, 0xF0, 0x10, 0xF0, 0x10, 0xF0,
+// 0x90, 0x90, 0xF0, 0x10, 0x10, 0xF0, 0x80, 0xF0, 0x10, 0xF0,
+// 0xF0, 0x80, 0xF0, 0x90, 0xF0, 0xF0, 0x10, 0x20, 0x40, 0x40,
+// 0xF0, 0x90, 0xF0, 0x90, 0xF0, 0xF0, 0x90, 0xF0, 0x10, 0xF0,
+// 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0,
+// 0xF0, 0x80, 0x80, 0x80, 0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0,
+// 0xF0, 0x80, 0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80
+
+document.write("<input onchange=\"with(f=new FileReader)readAsArrayBuffer(files[0]),onload=function(){m=[],k=[],s=[],v=[];i=t=u=z=o=0;d=512;f=new Uint8Array(result);for(h=1E3;h--;)m[h]='0x'+'f999f26227f1f8ff1f1f99f11f8f1ff8f9ff1244f9f9ff9f1ff9f99e9e9ef888fe999ef8f8ff8f88'[h]<<4,m[h+d]=f[h];z++}\"type=file>");
+
+setInterval(function(){
+
+// Vars
+// a: canvas
+// b: body (unused), replaced by screen pixels bitmap (64x32 1D array)
+// c: context2d
+// d: "PC", the program counter (initialized at 0x200)
+// e: eval
+// f: ROM content (hex)
+// g: functions parameter
+// h: iterator
+// i: "I", the address register (initialized at 0)
+// j: other iterator
+// k: keys
+// l: opcode
+// m: memory (array, 4096 * 1 byte)
+// n:
+// o: sound oscillator
+// p: audio context
+// q: temp var
+// r: temp var
+// s: stack
+// t: timer
+// u: sound timer
+// v: 16-bit registers ("V0" to "V15")
+// w: temp var
+// x: X (in the current opcode)
+// y: VY (in the current opcode)
+// z: emulator state (1: stopped, 1: started)
+
+// Input
+// On keydown, g.type = "keydown", and !!g.type[5] is true.
+// On keyup, g.type = "keyup", and !!g.type[5] is false.
+// The keys numpad 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, and QWERTY are used as input.
+// their keycode are respectively: 96, 103, 104, 105, 100, 101, 102, 97, 98, 99, 81, 87, 69, 82, 84, 89,
+// or 0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41 (modulo 48)
+onkeydown = onkeyup = function(g){
+  k[[0, 7, 8, 9, 4, 5, 6, 1, 2, 3, 33, 39, 21, 34, 36, 41].indexOf(g.keyCode % 48)] = !!g.type[5];
+  //log(k);
+}
+
+if(z){
+
+  // Game loop
+
+  // If a timer is set, decrease it
+  t && t--;
+
+  // If a sound timer is set, decrease it
+  u && u--;
+
+  // Stop sound if sound timer == 0
+  !u && o && o.stop();
+
+  // Read opcode (2 bytes)
+  l = m[d] << 8 | m[d + 1];
+
+  //log("l=0x"+l.toString(16));
+
+  // Read X (bits 9-12 of opcode)
+  x = (l >> 8) & 0xf;
+
+  //log("x="+x);
+
+  // Read the value of the register VY (= v[bits 5-8 of opcode]) 
+  y = v[(l >> 4) & 0xf];
+
+  // eval the opcode
+  eval(
+  
+    // Switch on the first 4 bits of the opcode
+    [
+      // 00E0: clear screen
+      // 00EE: return from subprogram
+      "l&3?d=s.pop():(a.width^=1,b=[])",
+      
+      // 1NNN: jump to NNN
+      "d=(l&4095)-2",
+      
+      // 2NNN: call subprogram at NNN
+      "s.push(d),d=(l&4095)-2",
+      
+      // 3XNN: ignore next opcode if VX == NN
+      "d+=2*(v[x]==(l&255))",
+      
+      // 4XNN: ignore next opcode if VX != NN
+      "d+=2*(v[x]!=(l&255))",
+      
+      // 5XY0: ignore next opcode if VX == VY
+      "d+=2*(v[x]==y)",
+      
+      // 6XNN: set VX to NN
+      "v[x]=l&255",
+      
+      // 7XNN: add NN to VX
+      "v[x]+=l&255",
+
+      // 8XYN: switch on the last 4 bits of the opcode (N)
+      [
+
+        // 8XY0: set VX to VY
+        "v[x]=y",
+        
+        // 8XY1: set VX to VX OR VY
+        "v[x]|=y",
+        
+        // 8XY2: set VX to VX AND VY
+        "v[x]&=y",
+        
+        // 8XY3: set VX to VX XOR VY
+        "v[x]^=y",
+        
+        // 8XY4: add VY to VX, put carry in VF
+        "v[15]=+((v[x]+=y)>255)",
+        
+        // 8XY5: substract VY to VX, put NOT borrow in VF
+        "v[15]=+((v[x]-=y)>=0)",
+        
+        // 8XY6: right shift VX, put shifted bit in VF
+        "v[15]=v[x]&1;v[x]>>=2",
+        
+        // 8XY7: VX = VY - VX, put NOT borrow in VF
+        "v[15]=+((v[x]=y-v[x])>=0)"
+        
+        ,,,,,,,
+        
+        // 8XYE: left shift VX, put shifted bit in VF
+        "v[15]=v[x]>>15;v[x]*=2"
+
+      ][l & 15],
+
+      // 9XY0: ignore next opcode if VX != VY
+      "d+=2*(v[x]!=y)",
+      
+      // ANNN: set I to NNN
+      "i=(l&4095)",
+      
+      // BNNN: jump to NNN + V0
+      "d=(l&4095)+v[0]",
+      
+      // CXNN: set VX to a random number < NN
+      "v[x]=new Date%(l&255)",
+      
+      // DXYN: draw the 8*N px sprite stored at address I at coordinates [VX:VY], XORing old and new pixels, and saving collision by setting VF to 1.
+      "v[15]=0;for(h=l&15;h--;)for(j=8;j--;)q=(v[x]+j+640)%64,w=(y+h+320)%32,r=!!b[64*w+q]+(m[i+h]>>7-j)&1,r==2&&(v[15]=1),b[64*w+q]=r,c.fillStyle=['#fff','#000','red'][r],c.fillRect(9*q,9*w,9,9)",
+      
+      // EX9E: ignore next opcode if VX is pressed
+      // EXA1: ignore next opcode if VX is not pressed
+      "d+=l&1?2*!k[v[x]]:2*!!k[v[x]]",
+
+      // Swith on the last byte of the opcode (NN)
+      [
+
+        // fx15: set timer to VX
+        "t=v[x]",
+        
+        // fx29: set I to the character VX
+        "i=5*v[x]",,
+        
+        // fx18: set sound timer to VX, start sound
+        "u=v[x];with(o=(p=new AudioContext).createOscillator())connect(p.destination),start()",
+        
+        // fx65: load V0 to VX from @I to @I+X
+        "for(h=x;h--;)v[h]=m[i+h]",
+        
+        // fx07: load timer value in VX
+        "v[x]=t",,
+        
+        // fx55: store V0 to VX in @I to @I+X
+        "for(h=x;h--;)m[i+h]=v[h]",
+        
+        // fx0a: store key pressed in VX
+        // (loop on current opcode (d-=2) until k contains "true" somewhere, then save its index in VX)
+        "d+=2*!~(v[x]=k.indexOf(!0))",
+        
+        // fx1e: add VX to I (VF = I overflow)
+        "i+=v[x];v[15]=+(i>4095);i&=4095",,
+        
+        // fx33: store VX in base 10 at I (hundreds), I+1 (dozens) and I+2
+        "for(h=3;h--;)m[i+h]=(''+v[x])[h]"
+      
+      ][(l & 0xff) % 19 - 2]
+
+    // According to opcode's prefix
+    ][l >> 12]
+  );
+  
+  // Go to next opcode
+  d += 2;
+  
+  //log("d="+d);
+  //log("i="+i);
+  //log(v);
+  //log("==============================");
+}
+
+}, 16);
+//}, 100);
+	
+/**************************/
+/** Entry code ends here **/
+/**************************/
+
+
+      // END
+    </script>
+    <script>
+      (function(){var doc=document;var header=doc.getElementsByTagName("header")[0];var firstChild=header.firstChild;var p=doc.getElementsByClassName("p")[0];var n=doc.getElementsByClassName("n")[0];header.insertBefore(p,firstChild);header.insertBefore(n,firstChild);header.appendChild(doc.getElementsByTagName("p")[0])})();
+      (function reload(fullscreen){var doc=document;var header=doc.getElementsByTagName("header")[0];var iframe=doc.createElement("iframe");doc.body.appendChild(iframe);var iwin=iframe.contentWindow;var idoc=iframe.contentDocument;idoc.open();idoc.close();idoc.write("<!doctype html>"+'<html style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+"<head>"+'<meta charset="utf-8">'+'<body style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+(TOKEN_CANVAS_SHIM?'<canvas style="display: block;'+
+      (TOKEN_CENTER_CANVAS?" margin: auto;":"")+'"></canvas>':"")+"");if(TOKEN_CANVAS_SHIM){var canvas=idoc.getElementsByTagName("canvas")[0];var cs=canvas.style;idoc.body.clientWidth;cs.width=(canvas.width=Math.max(Math.min(TOKEN_MAX_WIDTH||innerWidth,innerWidth),0)||0)+"px";cs.height=(canvas.height=Math.max(Math.min(TOKEN_MAX_HEIGHT||innerHeight-50,innerHeight-50),0)||0)+"px"}if(TOKEN_RELOAD_ONORIENTATIONCHANGE)onorientationchange=reloadClick;iwin.AudioContext=iwin.AudioContext||
+      iwin.webkitAudioContext;iwin.requestAnimationFrame=iwin.requestAnimationFrame||iwin.mozRequestAnimationFrame||iwin.webkitRequestAnimationFrame||iwin.msRequestAnimationFrame||function(f){iwin.setTimeout(f,1E3/30)};if(TOKEN_CANVAS_SHIM)canvas.requestPointerLock=canvas.requestPointerLock||canvas.mozRequestPointerLock||canvas.webkitRequestPointerLock;idoc.body.requestPointerLock=idoc.body.requestPointerLock||idoc.body.mozRequestPointerLock||idoc.body.webkitRequestPointerLock;navigator.getUserMedia=navigator.getUserMedia||
+      navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia;if(TOKEN_CANVAS_SHIM)iwin.a=canvas;iwin.b=idoc.body;if(TOKEN_CANVAS_SHIM){if(!TOKEN_WEBGL)iwin.c=canvas.getContext("2d");if(TOKEN_WEBGL)iwin.g=function(){iwin.onorientationchange=iwin.onresize=null;try{var o={antialias:true,stencil:true};var gl=canvas.getContext("webgl",o)||canvas.getContext("experimental-webgl",o);iwin.__glExts=["OES_texture_float","OES_texture_float_linear","OES_standard_derivatives","EXT_texture_filter_anisotropic",
+        "MOZ_EXT_texture_filter_anisotropic","WEBKIT_EXT_texture_filter_anisotropic","WEBGL_compressed_texture_s3tc","MOZ_WEBGL_compressed_texture_s3tc","WEBKIT_WEBGL_compressed_texture_s3tc"].map(function(ext){return gl.getExtension(ext)})}catch(e){idoc.body.innerHTML="WebGL not supported.";iwin.a=iwin.b=iwin.c=iwin.d=null;throw e;}return gl}()}var demo=idoc.createElement("script");demo.textContent=doc.querySelector('script[type="demo"]').textContent;idoc.body.appendChild(demo);idoc.close();iframe.contentWindow.focus();
+        var firstLine=doc.getElementsByTagName("div")[0];function reloadClick(b){doc.body.removeChild(iframe);r.parentElement.removeChild(r);iframe=null;r=null;idoc=null;header=null;reload(b)}window.reload=reloadClick;var r=doc.createElement("div");r.innerHTML="&#8635;";r.className="button r";r.title="restart just the demo (local, without remote fetch)";r.onclick=reloadClick;header.insertBefore(r,firstLine)})();
+    </script>
+  </body>
+</html>

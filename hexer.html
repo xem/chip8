@@ -1,0 +1,12 @@
+<input onchange="with(f=new FileReader)readAsArrayBuffer(files[0]),onload=s"type=file>
+<pre id=p style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+<script>
+
+s = function(){
+  p.innerHTML = "";
+	u = new Uint8Array(f.result);
+  for(i = 0; i < u.length; i ++){
+    p.innerHTML += (0+u[i].toString(16)).slice(-2);
+	}
+}
+</script>
